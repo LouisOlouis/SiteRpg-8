@@ -14,6 +14,13 @@
 <body>
 <header class="Top">
     <div class="Container">
-        <a class="title" href="index.php"><b>OmegaOn</b></a>
+        <a class="title" href="index.php"><b>Rpg-8</b></a>
     </div>
 </header>
+<div class="StartBlog">
+    <div class="Content">
+        <h1>Rpg-8</h1>
+        <h3>Bem vindo a pagina do Rpg-8 (feito por louis_louis)</h3>
+    </div>
+</div>
+<div class="content">
