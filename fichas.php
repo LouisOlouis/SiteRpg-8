@@ -1,8 +1,3 @@
-<?php 
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -17,17 +12,11 @@
         <a class="title" href="index.php"><b>Rpg-8</b></a>
     </div>
 </header>
-<div class="StartBlog">
+<div class="fichas">
     <div class="Content">
-        <h1>Rpg-8</h1>
-        <h3>Bem vindo a pagina do Rpg-8 (feito por louis_louis)</h3>
+        <h1>Fichas</h1>
+        <h3>Aqui estão as fichas dos personagens do Rpg-8</h3>
     </div>
+    <div class="Content">
+        <h2>Fichas</h2>
 </div>
-<div class="content">
-    <div class="Content1">
-        <h2>O que deseja fazer?</h2>
-        <a class="Post-Button" href="fichas.php">Ver fichas</a>
-    </div>
-</div>
-</body>
-</html>
