@@ -18,6 +18,12 @@ VALUES
 ('Destruidor'),
 ('Anti-Tank');
 
+INSERT INTO energias (energia)
+VALUES 
+('Prana'),
+("Energia Amaldicoada"),
+('Aura')
+
 INSERT INTO raridades (raridade)
 VALUES 
 ('Comum'),
@@ -153,6 +159,7 @@ VALUES
 ('Jarra de suco', 2, ''),
 ('Porta de guarda roupa', 2, ''),
 ('Roda de carroça', 2, ''),
+('Leque LGBT',2,'um leque de ferro com a bandeira lgbt')
 ('Bazuca de calor feita de air frier', 2, 'Cria uma bolha de vapor comprimido que causa queimaduras.'),
 ('Turbina de avião', 2, 'Lança uma rajada de vento cortante após acelerar os motores.'),
 ('Catapulta astral', 2, 'Cria uma catapulta invisível capaz de arremessar objetos de peso limitado.'),
@@ -210,3 +217,7 @@ VALUES
 ('LGBTQIAPN+', 'Permite seduzir o oponente independentemente do gênero, desequilibrando a luta e aumentando a eficácia quando combinado com o item Leque.'),
 ('Karatê Kid', 'Permite trocar armamentos e armaduras instantaneamente durante a batalha.');
 
+INSERT INTO fichas (nome, id_classe, efeitos, dinheiro, level, forca, velocidade, agilidade, durabilidade, combate, ea, stamina, iq, aura, sanidade, sanidadeMax, stress, traumas, rm) 
+VALUES
+('Lukis', 4, 'Está compartilhando a alma com Lilith', 847790, 18, 34, 21, 28, 45, 12, 95, 50, 135, 12, 95, 100, 53, 1, 45),
+('Dio Spin Keiner',)

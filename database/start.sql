@@ -1,16 +1,11 @@
 CREATE DATABASE SiteRPG;
 USE SiteRPG;
 
-CREATE TABLE senhas (
-	id INT auto_increment PRIMARY KEY,
-    senha VARCHAR(25) NOT NULL
-);
-
 CREATE TABLE usuarios (
-	id INT auto_increment PRIMARY KEY,
-    nome VARCHAR(25) unique not null,
-    id_senha INT,
-    foreign key (id_senha) references senhas(id)
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(25) UNIQUE NOT NULL,
+    senha_hash VARCHAR(255) NOT NULL,
+    isadmin BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE classes (
@@ -139,7 +134,8 @@ CREATE TABLE tecnicas (
 	id INT auto_increment PRIMARY KEY,
 	id_player INT,
 	foreign key (id_player) references fichas(id),
-    nome VARCHAR(15) NOT NULL
+    nome VARCHAR(15) NOT NULL,
+    descricao text
     );
 
 
@@ -153,6 +149,24 @@ CREATE TABLE jutsus (
     foreign key (id_energia_custo) references energias(id),
 	descricao text
 );
+
+CREATE TABLE habilidades_basicas (
+    id INT auto_increment PRIMARY KEY,
+    nome VARCHAR(25) NOT NULL,
+    custo INT,
+    id_energia_custo INT,
+    foreign key (id_energia_custo) references energias(id)
+);
+
+CREATE TABLE R_player_habilidades_basicas (
+    id INT auto_increment PRIMARY KEY,
+	id_player INT,
+	foreign key (id_player) references fichas(id),
+    id_habilidade_basica INT,
+	foreign key (id_habilidade_basica) references habilidades_basicas(id),
+    level INT
+);
+
 
 CREATE TABLE habilidades_classe (
 	id INT auto_increment PRIMARY KEY,
@@ -169,17 +183,8 @@ CREATE TABLE R_player_habilidade_classe (
 	id INT auto_increment PRIMARY KEY,
 	id_player INT,
 	foreign key (id_player) references fichas(id),
-    id_habiliade_classe INT,
-	foreign key (id_habilidade_classe) references habilidades__classe(id),
+    id_habilidade_classe INT,
+	foreign key (id_habilidade_classe) references habilidades_classe(id),
     level INT
 );
 
-
-    
-    
-    
-    
-    
-    
-    
-    

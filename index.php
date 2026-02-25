@@ -1,5 +1,10 @@
 <?php 
+session_start();
 
+$USUARIO = isset($_SESSION['usuario']) ? $_SESSION['usuario'] : null ;
+
+$invisivel_prelogin = $USUARIO ? 'style="display: none;"' : '';
+$invisivel_poslogin = $USUARIO ? '' : 'style="display: none;"';
 
 ?>
 
@@ -12,11 +17,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<header class="Top">
-    <div class="Container">
-        <a class="title" href="index.php"><b>Rpg-8</b></a>
-    </div>
-</header>
+    <header class="Top">
+        <div class="Container">
+                <a class="title" href="index.php"><b>RPG-8</b></a>
+                <div class="Perfil">
+                    <a class="Login-Button" href="login.php" <?php echo $invisivel_prelogin; ?>>Login</a>
+                </div>
+            </div>
+    </header>
 <div class="StartBlog">
     <div class="Content">
         <h1>Rpg-8</h1>
