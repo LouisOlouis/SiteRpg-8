@@ -18,11 +18,11 @@ VALUES
 ('Destruidor'),
 ('Anti-Tank');
 
-INSERT INTO energias (energia)
+INSERT INTO energias (nome)
 VALUES 
 ('Prana'),
 ("Energia Amaldicoada"),
-('Aura')
+('Aura');
 
 INSERT INTO raridades (raridade)
 VALUES 
@@ -118,7 +118,7 @@ VALUES
 ('Fagulha da Memória', 'Grava último diálogo ou ação e reproduz uma vez para auxiliar em enigmas.'),
 ('Pele de Vidro', 'Converte parte do dano mágico recebido em proteção física temporária; causa tontura após uso.'),
 ('Rastro de Cinza', 'Ao fugir, deixa rastro ilusório que confunde perseguidores por 2 turnos; não funciona em terreno aberto sem cobertura.'),
-('Infinidade', 'Permite que o item utilize munição sem consumi-la. Desde que o portador possua ao menos uma unidade de munição, ela é restaurada após cada uso.'),
+('Infinidade', 'Permite que o item utilize munição sem consumi-la. Desde que o portador possua ao menos uma unidade de munição.'),
 ('Fogo', 'Envolve o item em chamas místicas, transformando seus ataques em manifestações ardentes que queimam o alvo.'),
 ('Raios', 'Concede dano elétrico adicional e pequena chance de paralisar o alvo por 1 turno. Ataques podem saltar para um inimigo próximo.'),
 ('Água', 'Imbuí o item com a fluidez da água, permitindo que seus ataques se moldem e atinjam com força líquida e adaptável.'),
@@ -159,14 +159,16 @@ VALUES
 ('Jarra de suco', 2, ''),
 ('Porta de guarda roupa', 2, ''),
 ('Roda de carroça', 2, ''),
-('Leque LGBT',2,'um leque de ferro com a bandeira lgbt')
-('Bazuca de calor feita de air frier', 2, 'Cria uma bolha de vapor comprimido que causa queimaduras.'),
+('Leque LGBT',2,'um leque de ferro com a bandeira lgbt'),
+('Bazuca air frier', 2, 'Cria uma bolha de vapor comprimido que causa queimaduras.'),
 ('Turbina de avião', 2, 'Lança uma rajada de vento cortante após acelerar os motores.'),
 ('Catapulta astral', 2, 'Cria uma catapulta invisível capaz de arremessar objetos de peso limitado.'),
-('Geladeira 4 portas Eletrolux frost free com água na porta', 2, 'Causa ataque em área semelhante a chuva de granizo, podendo congelar o usuário se usada excessivamente.'),
-('Motorola Moto E32', 2, 'Lança lasers quando balançado repetidamente, com risco de explosão.'),
+('Geladeira Eletrolux', 2, 'Causa ataque em área semelhante a chuva de granizo, podendo congelar o usuário se usada excessivamente.'),
+('Motorola Moto E32', 2, 'Lança lasers quando balançado repetidamente, com risco de explosão.');
 
 -- Raras
+INSERT INTO itens (item, id_raridade, descricao) 
+VALUES
 ('Escudo Devorar', 3, 'Pode engolir até 3 adversários por dia.'),
 ('Incensário', 3, 'Cria uma parede de fumaça tóxica que pode deixar inimigos atordoados.'),
 ('Crucifixo de Cabeça pra Baixo', 3, 'Aumenta a defesa do usuário em 20% contra membros da igreja ou santos e drena energia de ataques.'),
@@ -189,9 +191,11 @@ VALUES
 ('Besta de granadas', 4, 'Dispara duas granadas por vez que explodem ao contato.'),
 ('Caixinha JBL', 4, 'Emite ondas de choque capazes de causar abalos dependendo da música.'),
 ('Poltergeist', 4, 'Envolve o alvo em bolha de energia que o prende ou protege temporariamente.'),
-('Lança rede elétrica', 4, 'Dispara uma rede energizada que imobiliza e eletrocuta o alvo.'),
+('Lança rede elétrica', 4, 'Dispara uma rede energizada que imobiliza e eletrocuta o alvo.');
 
 -- Mítico
+INSERT INTO itens (item, id_raridade, descricao) 
+VALUES
 ('Anel do Desbravador', 5, 'Permite usar uma habilidade do portador em nível máximo por um ataque.'),
 ('Berrante do General', 5, 'Pode reagrupar tropas e teleportar exércitos inteiros.'),
 ('Varinha da Fada Madrinha', 5, 'Cria uma única coisa imaginada que não tenha vida nem possa tirar vidas; dura até a meia-noite.'),
@@ -220,4 +224,5 @@ VALUES
 INSERT INTO fichas (nome, id_classe, efeitos, dinheiro, level, forca, velocidade, agilidade, durabilidade, combate, ea, stamina, iq, aura, sanidade, sanidadeMax, stress, traumas, rm) 
 VALUES
 ('Lukis', 4, 'Está compartilhando a alma com Lilith', 847790, 18, 34, 21, 28, 45, 12, 95, 50, 135, 12, 95, 100, 53, 1, 45),
-('Dio Spin Keiner',)
+('Dio Spin Keiner' , 1, 'Amaldiçoado', 9975, 19, 30, 20, 20, 17, 5, 25, 55, 125, 36, 17, 90, 80, 3, 28),
+( 'Damian Jackson', 2, '...', 478545, 11, 8, 4, 5, 6, 9, 80, 35, 160, 4, 100, 100, 30, 0, 15);
