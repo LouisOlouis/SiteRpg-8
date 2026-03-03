@@ -1,11 +1,11 @@
 <?php
-$server = getenv("HOST");
-$user = getenv("USER");
-$pass = getenv("PASSWORD");
-$db = getenv("DATABASE");
+$server = "localhost";
+$user = "root";
+$pass = "988071292Luis";
+$db = "siterpg";
 
-    if ( $conn = mysqli_connect($server, $user, $pass, $bd) ) {
-        // echo "Conectado!";
+    if ( $conn = mysqli_connect($server, $user, $pass, $db) ) {
+        echo "Conectado!";
     } else {
         echo "ERRO!";
     }
