@@ -9,9 +9,13 @@ include("header.php");
     </div>
 </div>
 <div class="content">
-    <div class="Content1">
+    <div class="card">
         <h2>O que deseja fazer?</h2>
         <a class="Post-Button" href="fichas.php">Ver fichas</a>
+        <a class="Post-Button" href="fichas.php">Ver itens</a>
+        <a class="Post-Button" href="fichas.php">Ver encantamentos</a>
+        <a class="Post-Button" href="fichas.php">Ver estilos de luta</a>
+        <a class="Post-Button" href="fichas.php">Ver titulos</a>
     </div>
 </div>
 </body>

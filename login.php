@@ -10,24 +10,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome = $_POST["nome"] ?? "";
     $senha = $_POST["senha"] ?? "";
 
-    $stmt = $conn->prepare("SELECT nome FROM usuarios WHERE nome = ?");
+    $stmt = $conn->prepare("SELECT id, nome, senha_hash FROM usuarios WHERE nome = ?");
     $stmt->bind_param("s", $nome);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows <= 0) {
-        echo "Usuário nao existe.";
+        $invisivel_erro = '';
+        $mensagem = "Usuário nao existe.";
     } else {
         $usuario = $result->fetch_assoc();
         
         if (!password_verify($senha, $usuario['senha_hash'])){
-            echo "senha incorreta";
+            $invisivel_erro = '';
+            $mensagem = "senha incorreta";
         } else {
-            echo "liberar login";
+            $_SESSION['user_id'] = $usuario['id'];
+            $_SESSION['user_name'] = $usuario['nome'];
+            header('Location: index.php');
+            exit();
         }
     }
-
-
 }
 
 ?>
