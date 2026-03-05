@@ -5,9 +5,9 @@ $pass = "***REMOVED***";
 $db = "siterpg";
 
     if ( $conn = mysqli_connect($server, $user, $pass, $db) ) {
-        echo "Conectado!";
+        //echo "Conectado!";
     } else {
-        echo "ERRO!";
+        error_log( mysqli_connect_error() );
     }
 
     function mensagem($texto, $tipo) {

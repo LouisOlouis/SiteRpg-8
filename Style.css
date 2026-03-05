@@ -1,0 +1,248 @@
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* BODY */
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#121212;
+    color:#e5e5e5;
+}
+
+/* HEADER */
+
+.Top{
+    background:#1c1c1c;
+    border-bottom:2px solid #2e2e2e;
+}
+
+.header{
+    max-width:1100px;
+    margin:auto;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.title{
+    font-size:26px;
+    text-decoration:none;
+    color:white;
+}
+
+.title:hover{
+    color:#b784ff;
+}
+
+.Perfil{
+    display:flex;
+    align-items:center;
+}
+
+.Nome{
+    font-weight:bold;
+    color:#b784ff;
+}
+
+/* BOTÃO LOGIN */
+
+.Login-Button{
+    padding:8px 16px;
+    background:#7b3fe4;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+    transition:0.2s;
+}
+
+.Login-Button:hover{
+    background:#5d2fb0;
+}
+
+/* HERO */
+
+.StartBlog{
+    padding:80px 20px;
+    text-align:center;
+    background:linear-gradient(180deg,#1a1a1a,#111);
+}
+
+.StartBlog h1{
+    font-size:48px;
+    margin-bottom:10px;
+}
+
+.StartBlog h3{
+    color:#bfbfbf;
+}
+
+/* CONTEÚDO */
+
+.content{
+    display:flex;
+    justify-content:center;
+    padding:40px;
+}
+
+/* CARD */
+
+.card{
+    background:#1b1b1b;
+    padding:30px;
+    border-radius:10px;
+    border:1px solid #2a2a2a;
+    text-align:center;
+}
+
+/* BOTÕES */
+
+.Post-Button{
+    display:inline-block;
+    margin-top:20px;
+    padding:12px 20px;
+    background:#7b3fe4;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+    transition:0.2s;
+}
+
+.Post-Button:hover{
+    background:#5d2fb0;
+    transform:scale(1.05);
+}
+
+/* FORM */
+
+.form{
+    display:flex;
+    justify-content:center;
+    margin-top:80px;
+}
+
+.form form{
+    background:#1b1b1b;
+    padding:35px;
+    border-radius:10px;
+    border:1px solid #2a2a2a;
+    width:320px;
+    display:flex;
+    flex-direction:column;
+}
+
+.form h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.form h3{
+    margin-top:10px;
+    font-size:14px;
+    font-weight:normal;
+    color:#cfcfcf;
+}
+
+.form input{
+    margin-top:6px;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #333;
+    background:#0f0f0f;
+    color:white;
+    outline:none;
+}
+
+.form input:focus{
+    border-color:#7b3fe4;
+}
+
+.form button{
+    margin-top:20px;
+    padding:10px;
+    border:none;
+    border-radius:6px;
+    background:#7b3fe4;
+    color:white;
+    font-size:15px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.form button:hover{
+    background:#5d2fb0;
+    transform:scale(1.03);
+}
+
+/* ERRO */
+
+.erro{
+    color:#ff5c5c;
+    margin-top:10px;
+    font-size:14px;
+}
+
+/* LINKS */
+
+.form a{
+    color:#b784ff;
+    text-decoration:none;
+}
+
+.form a:hover{
+    text-decoration:underline;
+}
+
+/* CONTAINER DE FICHAS */
+
+.fichas{
+    background:#1b1b1b;
+    border:1px solid #2a2a2a;
+    max-width: 800px;
+    margin: 20px auto;
+    border-radius: 8px;
+    padding: 30px;
+}
+
+.fichas h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+/* LINK DA FICHA */
+
+.ficha_link{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* ITEM INDIVIDUAL DA FICHA */
+
+.ficha{
+    padding:22px;
+    border-radius:8px;
+    transition:0.2s;
+}
+
+.ficha:hover{
+    background:#262626;
+    transform:scale(1.02);
+}
+
+/* NOME */
+
+.nome_ficha{
+    font-size:18px;
+}
+
+/* SEPARADOR */
+
+.ficha hr{
+    border:none;
+    border-top:1px solid #2a2a2a;
+    margin:10px 0;
+}
+

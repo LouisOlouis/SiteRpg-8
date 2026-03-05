@@ -8,12 +8,12 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <title>SiteRPG</title>
-    <link rel="stylesheet" href="Style.css?v=3.0">
+    <link rel="stylesheet" href="Style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 <header class="Top">
-    <div class="Container">
+    <div class="header">
         <a class="title" href="index.php"><b>RPG-8</b></a>
         <div class="Perfil">
         <?php
