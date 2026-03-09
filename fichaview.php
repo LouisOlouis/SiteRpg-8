@@ -4,7 +4,20 @@ include("header.php");
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 1;
 
-$stmt = $conn->prepare("SELECT * FROM fichas WHERE id = ?");
+$stmt = $conn->prepare("SELECT 
+    player.*,
+    classes.classe AS classe,
+    GROUP_CONCAT(titulos.titulo SEPARATOR ', ') AS titulos
+FROM player
+JOIN classes 
+    ON player.id_classe = classes.id
+LEFT JOIN R_player_titulo 
+    ON player.id = R_player_titulo.id_player
+LEFT JOIN titulos 
+    ON R_player_titulo.id_titulo = titulos.id
+WHERE player.id = ?
+GROUP BY fichas.id, classes.classe;");
+
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -12,7 +25,6 @@ $stmt->close();
 
 $ficha = $result->fetch_assoc();
 
-//get class
 
 
 ?>
@@ -21,10 +33,10 @@ $ficha = $result->fetch_assoc();
     <div class="fichas">
         <h2>Ficha</h2>
         <h3>Nome: <?php echo htmlspecialchars($ficha["nome"]); ?></h3>
-        <h3>Classe: <?php echo htmlspecialchars($ficha["nome"]); ?></h3>
+        <h3>Classe: <?php echo htmlspecialchars($ficha["classe"]); ?></h3>
         <h3>Efeitos: <?php echo htmlspecialchars($ficha["efeitos"]); ?></h3>
-        <h3>Titulos: <?php echo htmlspecialchars($ficha["nome"]); ?></h3>
-        <h3>Dinheiro: <?php echo htmlspecialchars($ficha["nome"]); ?></h3>
+        <h3>Titulos: <?php echo htmlspecialchars($ficha["titulos"]); ?></h3>
+        <h3>Dinheiro: <?php echo htmlspecialchars($ficha["dinheiro"]); ?></h3>
 
 
 
