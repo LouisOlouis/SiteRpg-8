@@ -221,8 +221,18 @@ VALUES
 ('LGBTQIAPN+', 'Permite seduzir o oponente independentemente do gênero, desequilibrando a luta e aumentando a eficácia quando combinado com o item Leque.'),
 ('Karatê Kid', 'Permite trocar armamentos e armaduras instantaneamente durante a batalha.');
 
-INSERT INTO fichas (nome, id_classe, efeitos, dinheiro, level, forca, velocidade, agilidade, durabilidade, combate, ea, stamina, iq, aura, sanidade, sanidadeMax, stress, traumas, rm) 
+INSERT INTO fichas (nome, id_classe, efeitos, dinheiro, level, forca, velocidade, agilidade, durabilidade, combate, experiencia, energia, stamina, iq, aura, sanidade, sanidadeMax, stress, traumas, rm) 
 VALUES
-('Lukis', 4, 'Está compartilhando a alma com Lilith', 847790, 18, 34, 21, 28, 45, 12, 95, 50, 135, 12, 95, 100, 53, 1, 45),
-('Dio Spin Keiner' , 1, 'Amaldiçoado', 9975, 19, 30, 20, 20, 17, 5, 25, 55, 125, 36, 17, 90, 80, 3, 28),
-( 'Damian Jackson', 2, '...', 478545, 11, 8, 4, 5, 6, 9, 80, 35, 160, 4, 100, 100, 30, 0, 15);
+('Lukis', 4, 'Compartilhando alma com Lilith', 847790, 24, 34, 21, 28, 48, 12, 10, 160, 100, 135, 12, 95, 100, 53, 1, 45),
+('Dio Spin Keiner', 1, '🗣️🧠 | Amaldiçoado', 10175, 20, 30, 20, 20, 20, 8, 17, 25, 55, 125, 38, 57, 90, 80, 3, 28),
+('Damian Jackson', 1, 'Invocador de sombras', 478545, 11, 8, 4, 5, 6, 9, 6, 80, 35, 160, 4, 100, 100, 30, 0, 15),
+('Adrian Kreuz', 1, 'Abençoado', 547940, 20, 12, 7, 12, 16, 3, 5, 1180, 50, 110, 10, 85, 100, 58, 0, 35),
+('Aurelian Tempest', 1, '⚪', 530055, 23, 2, 26, 25, 18, 2, 13, 160, 85, 110, 15, 63, 90, 49, 2, 10),
+('Ikulian', 1, '...', 7000, 22, 25, 20, 17, 19, 9, 12, 125, 105, 130,
+15,
+92,
+100,
+52,
+0,
+10
+),

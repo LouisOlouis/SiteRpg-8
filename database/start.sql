@@ -49,7 +49,7 @@ CREATE TABLE estilos_luta (
 );
 
 -- players
-CREATE TABLE fichas (
+CREATE TABLE player (
 	id INT auto_increment PRIMARY KEY,
     nome VARCHAR(30) not null,
     id_classe INT,
@@ -62,7 +62,8 @@ CREATE TABLE fichas (
     agilidade INT not null,
     durabilidade INT not null,
     combate INT not null,
-    ea INT not null,
+    experiencia INT not null,
+    energia INT not null,
     stamina INT not null,
     iq INT not null,
     aura INT not null,
@@ -78,7 +79,7 @@ CREATE TABLE fichas (
 CREATE TABLE R_player_titulo (
 	id INT auto_increment PRIMARY KEY,
 	id_player INT not null,
-    foreign key (id_player) references fichas(id),
+    foreign key (id_player) references player(id),
     id_titulo INT not null,
     foreign key (id_titulo) references titulos(id)
 );
@@ -87,7 +88,7 @@ CREATE TABLE R_player_titulo (
 CREATE TABLE R_player_item (
 	id INT auto_increment PRIMARY KEY,
 	id_player INT not null,
-    foreign key (id_player) references fichas(id),
+    foreign key (id_player) references player(id),
     id_item INT not null,
     foreign key (id_item) references itens(id)
     
@@ -106,7 +107,7 @@ CREATE TABLE R_item_player_encantamento (
 CREATE TABLE R_player_encantamento (
 	id INT auto_increment PRIMARY KEY,
     id_player INT,
-	foreign key (id_player) references fichas(id),
+    foreign key (id_player) references player(id),
 	id_encantamentos INT,
     foreign key (id_encantamentos) references encantamentos(id)
     );
@@ -115,7 +116,7 @@ CREATE TABLE R_player_encantamento (
 CREATE TABLE R_player_estiloluta (
 	id INT auto_increment PRIMARY KEY,
     id_player INT,
-	foreign key (id_player) references fichas(id),
+    foreign key (id_player) references player(id),
 	id_estiloluta INT,
     foreign key (id_estiloluta) references estilos_luta(id)
     );
@@ -125,7 +126,7 @@ CREATE TABLE R_player_estiloluta (
 CREATE TABLE talentos (
 	id INT auto_increment PRIMARY KEY,
 	id_player INT,
-	foreign key (id_player) references fichas(id),
+    foreign key (id_player) references player(id),
 	nome VARCHAR(25) NOT NULL,
 	descricao text
     );
@@ -133,7 +134,7 @@ CREATE TABLE talentos (
 CREATE TABLE tecnicas (
 	id INT auto_increment PRIMARY KEY,
 	id_player INT,
-	foreign key (id_player) references fichas(id),
+    foreign key (id_player) references player(id),
     nome VARCHAR(15) NOT NULL,
     descricao text
     );
@@ -161,7 +162,7 @@ CREATE TABLE habilidades_basicas (
 CREATE TABLE R_player_habilidades_basicas (
     id INT auto_increment PRIMARY KEY,
 	id_player INT,
-	foreign key (id_player) references fichas(id),
+    foreign key (id_player) references player(id),
     id_habilidade_basica INT,
 	foreign key (id_habilidade_basica) references habilidades_basicas(id),
     level INT
@@ -182,7 +183,7 @@ CREATE TABLE habilidades_classe (
 CREATE TABLE R_player_habilidade_classe (
 	id INT auto_increment PRIMARY KEY,
 	id_player INT,
-	foreign key (id_player) references fichas(id),
+    foreign key (id_player) references player(id),
     id_habilidade_classe INT,
 	foreign key (id_habilidade_classe) references habilidades_classe(id),
     level INT
