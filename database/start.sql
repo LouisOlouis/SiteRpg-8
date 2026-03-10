@@ -101,6 +101,7 @@ CREATE TABLE R_item_player_encantamento (
     foreign key (id_item_player) references R_player_item(id),
     id_encantamentos INT,
     foreign key (id_encantamentos) references encantamentos(id)
+    level INT
     );
 
 -- varias pessoas podem ter varios encantamentos

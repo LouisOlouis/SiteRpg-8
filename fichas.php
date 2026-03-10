@@ -2,7 +2,7 @@
 include("conexao.php");
 include("header.php");
 
-$stmt = $conn->prepare("SELECT id, nome FROM fichas");
+$stmt = $conn->prepare("SELECT id, nome FROM player");
 $stmt->execute();
 $result = $stmt->get_result();
 $stmt->close();

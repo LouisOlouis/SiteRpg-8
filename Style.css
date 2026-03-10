@@ -85,7 +85,13 @@ body{
 .content{
     display:flex;
     justify-content:center;
-    padding:40px;
+    padding:30px;
+    padding-bottom: 0px;
+}
+
+.content h2{
+    text-align: center;
+    margin-bottom:20px;
 }
 
 /* CARD */
@@ -137,6 +143,7 @@ body{
 .form h2{
     text-align:center;
     margin-bottom:20px;
+    
 }
 
 .form h3{
