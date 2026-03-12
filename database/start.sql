@@ -65,6 +65,7 @@ CREATE TABLE player (
     experiencia INT not null,
     energia INT not null,
     stamina INT not null,
+    hp INT not null,
     iq INT not null,
     aura INT not null,
 	sanidade INT not null,
