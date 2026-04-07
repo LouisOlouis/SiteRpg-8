@@ -67,4 +67,35 @@ VALUES
 INSERT INTO itens (item, id_raridade, descricao) 
 VALUES
 --82
-('Oculos Escuros', 1,'Maneiros');
+('Oculos Escuros', 1,'Maneiros'),
+('Livro da Sorte', 2,'+7 no dado 3x na sessão'),
+('Runa de lealdade', 2,'');
+('Mochila X',1, '10 espaços')
+
+INSERT INTO R_player_item (id_player, id_item)
+VALUES
+
+(4,83),
+(4,77),
+(4,76),
+(4,70),
+(4,84),
+(4,85),
+(4,86);
+
+INSERT INTO itens (item, id_raridade, descricao) 
+VALUES
+--86
+('Chapeu estiloso', 1, 'Estiloso'),
+('Colar Lunar', 2,''),
+('Relogio Amaldiçoado', 2, "Relogio imbuido com E.A que aumenta sua propia energia");
+
+
+INSERT INTO R_player_item (id_player, id_item)
+VALUES
+(5,81),
+(5,77),
+(5,76),
+(5,87),
+(5,88),
+(5,89);

@@ -49,31 +49,55 @@ CREATE TABLE estilos_luta (
 );
 
 -- players
-CREATE TABLE player (
+CREATE TABLE player_base (
 	id INT auto_increment PRIMARY KEY,
     nome VARCHAR(30) not null,
     id_classe INT,
     foreign key (id_classe) references classes(id),
     efeitos VARCHAR(50),
-    dinheiro INT not null,
+);
+
+CREATE TABLE player_dinheiro (
+    id INT auto_increment PRIMARY KEY,
+    id_player INT,
+    foreign key (id_player) references player_base(id),
+    dinheiro INT not null DEFAULT 0,
+    fragmento INT not null DEFAULT 0
+);
+
+CREATE TABLE player_status (
+    id INT auto_increment PRIMARY KEY,
+    id_player INT,
+    foreign key (id_player) references player_base(id),
     level INT not null,
+    hp INT not null,
     forca INT not null,
     velocidade INT not null,
     agilidade INT not null,
     durabilidade INT not null,
     combate INT not null,
-    experiencia INT not null,
-    energia INT not null,
-    stamina INT not null,
-    hp INT not null,
+    experiencia INT not null
+);
+
+CREATE TABLE player_energias (
+    id INT auto_increment PRIMARY KEY,
+    id_player INT,
+    foreign key (id_player) references player_base(id),
     iq INT not null,
-    aura INT not null,
-	sanidade INT not null,
+    stamina INT not null,
+    energia INT not null,
+    aura INT not null
+);
+
+CREATE TABLE player_mente (
+    id INT auto_increment PRIMARY KEY,
+    id_player INT,
+    foreign key (id_player) references player_base(id),
+    sanidade INT not null,
     sanidadeMax INT not null,
 	stress INT not null,
     traumas INT not null,
     rm INT not null
-    
 );
 
 -- varias pessoas podem ter varios titulos

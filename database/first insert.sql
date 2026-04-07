@@ -225,17 +225,65 @@ VALUES
 ('LGBTQIAPN+', 'Permite seduzir o oponente independentemente do gênero, desequilibrando a luta e aumentando a eficácia quando combinado com o item Leque.'),
 ('Karatê Kid', 'Permite trocar armamentos e armaduras instantaneamente durante a batalha.');
 
-INSERT INTO player (nome, id_classe, efeitos, dinheiro, level, forca, velocidade, agilidade, durabilidade, combate, experiencia, energia, stamina, iq, aura, sanidade, sanidadeMax, stress, traumas, rm, hp) 
+INSERT INTO player_base (nome, id_classe, efeitos) 
 VALUES
-('Lukis', 4, 'Compartilhando alma com Lilith', 847790, 24, 34, 21, 28, 48, 12, 10, 160, 100, 135, 12, 95, 100, 53, 1, 45, 201),
-('Dio Spin Keiner', 1, 'Amaldiçoado', 10175, 20, 30, 20, 20, 20, 8, 17, 25, 55, 125, 38, 57, 90, 80, 3, 28, 210),
-('Damian Jackson', 4, 'Invocador de sombras', 478545, 11, 8, 4, 5, 6, 9, 6, 80, 35, 160, 4, 100, 100, 30, 0, 15, 328),
-('Adrian Kreuz', 4, 'Abençoado', 547940, 20, 12, 7, 12, 16, 3, 5, 1180, 50, 110, 10, 85, 100, 58, 0, 35, 150),
-('Aurelian Tempest', 6, '...', 530055, 23, 2, 26, 25, 18, 2, 13, 160, 85, 110, 15, 63, 90, 49, 2, 10, 105),
-('Ikulian', 1, '...', 7000, 22, 25, 20, 17, 19, 9, 12, 125, 105, 130, 15, 92, 100, 52, 0, 10, 103),
-('Bachira', 14, 'Destruct (Impede de receber buffs)', 10000, 21, 21, 18, 13, 24, 5, 7, 145, 120, 105, 14, 47, 90, 60, 0, 11, 105),
-('Yuri Konshkina', 3, '...', 1100, 4, 3, 4, 2, 4, 3, 5, 65, 45, 120, 10, 110, 110, 15, 0, 15, 105),
-('Koishi Komeiji', 8, '...', 100, 1, 1, 1, 1, 2, 1, 3, 25, 25, 105, 1, 100, 100, 10, 0, 15, 105);
+('Lukis', 4, 'Compartilhando alma com Lilith'),
+('Dio Spin Keiner', 1, 'Amaldiçoado'),
+('Damian Jackson', 4, 'Invocador de sombras'),
+('Adrian Kreuz', 4, 'Abençoado'),
+('Aurelian Tempest', 6, '...'),
+('Ikulian', 1, '...',),
+('Bachira', 14,'Destruct (Impede de receber buffs)'),
+('Yuri Konshkina',3, '...'),
+('Koishi Komeiji',8, '...');
+
+INSERT INTO player_dinheiro (id_player, dinheiro, fragmento)
+VALUES
+(1,847790,0),
+(2,10175,0),
+(3,478545,0),
+(4,547940,0),
+(5,530055,0),
+(6, 7000,700),
+(7,10000,525),
+(8,1100,0),
+(9,100,0);
+
+INSERT INTO player_status (id_player,level, hp, forca, velocidade, agilidade, durabilidade, combate, experiencia)
+VALUES
+(1, 24, 201, 34, 21, 28, 48, 12, 10),
+(2, 20,210, 30, 20, 20, 20, 8, 17),
+(3, 11, 328, 8, 4, 5, 6, 9, 6),
+(4, 20, 150, 12, 7, 12, 16, 3, 5),
+(5, 23, 105, 2, 26, 25, 18, 2, 13),
+(6, 22, 103, 25, 20, 17, 19, 9, 12),
+(7, 21, 105, 21, 18, 13, 24, 5, 7),
+(8, 4, 105, 3, 4, 2, 4, 3, 5),
+(9, 1, 105, 1, 1, 1, 2, 1, 3);
+
+INSERT INTO player_energias (id_player, energia, stamina, iq, aura)
+VALUES
+(1, 160, 100, 135, 12),
+(2, 25, 55, 125, 38),
+(3, 80, 35, 160, 4),
+(4, 1180, 50, 110, 10),
+(5, 160, 85, 110, 15),
+(6, 125, 105, 130, 15),
+(7, 145, 120, 105, 14),
+(8, 65, 45, 120, 10),
+(9, 25, 25, 105, 1);
+
+INSERT INTO player_mente (id_player, sanidade, sanidadeMax, stress, traumas, rm)
+VALUES
+(1, 95, 100, 53, 1, 45),
+(2, 57, 90, 80, 3, 28),
+(3, 100, 100, 30, 0, 15),
+(4, 85, 100, 58, 0, 35),
+(5, 63, 90, 49, 2, 10),
+(6, 92, 100, 52, 0, 10),
+(7, 47, 90, 60, 0, 11),
+(8, 110, 110, 15, 0, 15),
+(9, 100, 100, 10, 0, 15);
 
 INSERT INTO R_player_titulo (id_player, id_titulo)
 VALUES
