@@ -3,7 +3,6 @@ USE SiteRPG;
 INSERT INTO itens (item, id_raridade, descricao) 
 VALUES
 
---65
 ("Isqueiro", 1, 'Isqueiro simples'),
 ('Manopla', 1, ''),
 ('STG 44', 1, ''),
@@ -25,18 +24,18 @@ VALUES
 INSERT INTO itens (item, id_raridade, descricao) 
 VALUES
 
---72
+
 ("Machado Kratos", 3, "Machado Estilo kratos"),
 ("Anel", 1,""),
 ("Livro de historia", 1, "Contem informaçoes historicas"),
 ("Brasão de Graduado", 1, "ganhado quando se forma na escola"),
 ("Celular", 1, ""),
-("Espada foda", 3, "Bem foda")
+("Espada foda", 3, "Bem foda"),
 ("Bolsa do vasio", 2, '');
 
 INSERT INTO R_player_item (id_player, id_item)
 VALUES
-(2,73),--8
+(2,73),
 (2,74),
 (2,75),
 (2,76),
@@ -50,9 +49,9 @@ VALUES
 
 INSERT INTO itens (item, id_raridade, descricao) 
 VALUES
---79
+
 ('Cajado de Madeira', 1, ""),
-('Brasao da familia', 2, '')
+('Brasao da familia', 2, ''),
 ('Solcrux', 6, 'Machado de Guerra Vermelho com habilidades solares');
 
 INSERT INTO R_player_item (id_player, id_item)
@@ -66,11 +65,10 @@ VALUES
 
 INSERT INTO itens (item, id_raridade, descricao) 
 VALUES
---82
 ('Oculos Escuros', 1,'Maneiros'),
 ('Livro da Sorte', 2,'+7 no dado 3x na sessão'),
-('Runa de lealdade', 2,'');
-('Mochila X',1, '10 espaços')
+('Runa de lealdade', 2,''),
+('Mochila X',1, '10 espaços');
 
 INSERT INTO R_player_item (id_player, id_item)
 VALUES
@@ -85,7 +83,6 @@ VALUES
 
 INSERT INTO itens (item, id_raridade, descricao) 
 VALUES
---86
 ('Chapeu estiloso', 1, 'Estiloso'),
 ('Colar Lunar', 2,''),
 ('Relogio Amaldiçoado', 2, "Relogio imbuido com E.A que aumenta sua propia energia");
@@ -99,3 +96,52 @@ VALUES
 (5,87),
 (5,88),
 (5,89);
+
+INSERT INTO R_player_item (id_player, id_item)
+VALUES
+(6,76),
+(6,77);
+
+
+INSERT INTO itens (item, id_raridade, descricao) 
+VALUES
+('Cordao',1,''),
+('Machado',1,''),
+('Colar',1,''),
+('Manoplas',1,'');
+
+INSERT INTO R_player_item (id_player, id_item)
+VALUES
+(7,90),
+(7,91),
+(7,76),
+(7,77),
+(7,92),
+(7,93);
+
+INSERT INTO itens (item, id_raridade, descricao) 
+VALUES
+('Rifle Marshall',2,'Rifle que pertencera ao pai de Yuri koshkina, tem a aparencia da marshall neo frontier do valorant'),
+('Muniçao Infinita',4,'encantado com infinidade nao importa quantas vezes seja usado sempre estara cheio');
+
+INSERT INTO R_player_item (id_player, id_item)
+VALUES
+(8,94),
+(8,95),
+(8,76),
+(8,77);
+
+INSERT INTO R_item_player_encantamento (id_item_player, id_encantamentos, level)
+VALUES
+(43,47,5);
+
+INSERT INTO itens (item, id_raridade, descricao) 
+VALUES
+('bandagens',1,''),
+('faca',1,'');
+
+INSERT INTO R_player_item (id_player, id_item)
+VALUES
+(9,96),
+(9,97),
+(9,77);
