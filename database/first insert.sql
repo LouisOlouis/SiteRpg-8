@@ -232,7 +232,7 @@ VALUES
 ('Damian Jackson', 4, 'Invocador de sombras'),
 ('Adrian Kreuz', 4, 'Abençoado'),
 ('Aurelian Tempest', 6, '...'),
-('Ikulian', 1, '...',),
+('Ikulian', 1, '...'),
 ('Bachira', 14,'Destruct (Impede de receber buffs)'),
 ('Yuri Konshkina',3, '...'),
 ('Koishi Komeiji',8, '...');
