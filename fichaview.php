@@ -83,23 +83,33 @@ $stmt->close();
 $itensAgrupados = [];
 
 while ($row = $result_itens->fetch_assoc()) {
-    $id = $row['id'];
+    //$id = $row['id'];
 
-    if (!isset($itensAgrupados[$id])) {
-        $itensAgrupados[$id] = [
+    if (!isset($itensAgrupados[$row['id']])) {
+        $itensAgrupados[$row['id']] = [
             'item' => $row['item'],
             'encantamentos' => []
         ];
     }
 
     if ($row['encantamento']) {
-        $itensAgrupados[$id]['encantamentos'][] = [
+        $itensAgrupados[$row['id']]['encantamentos'][] = [
             'nome' => $row['encantamento'],
             'level' => $row['level']
         ];
     }
 }
 
+
+//habilidades
+/*$stmt = $conn->prepare("SELECT
+    estiloluta.nome,
+    encantamentos.encantamento
+    
+    FROM 
+
+")
+*/
 
 
 ?>
@@ -148,8 +158,8 @@ while ($row = $result_itens->fetch_assoc()) {
         <h2>Itens</h2>
 
         <?php
-        foreach ($itensAgrupados as $id => $item) {
-            echo '<a href="itemview.php?id=' . $id . '" class="ficha_link">';
+        foreach ($itensAgrupados as $id_item => $item) {
+            echo '<a href="itemview.php?id=' . $id_item . '" class="ficha_link">';
             echo '<div class="ficha">';
             
             echo '<h3 class=nome_ficha>' . $item['item'] . '</h3>';
@@ -169,4 +179,6 @@ while ($row = $result_itens->fetch_assoc()) {
 
 <div class="content">
     <div class="fichas">
-        <h2>Poderes:</h2>
+        <h2>Habilidades:</h2>
+    </div>
+</div>
