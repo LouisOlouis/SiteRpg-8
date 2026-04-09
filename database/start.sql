@@ -136,6 +136,7 @@ CREATE TABLE R_player_encantamento (
     foreign key (id_player) references player_base(id),
 	id_encantamentos INT,
     foreign key (id_encantamentos) references encantamentos(id)
+    level INT
     );
     
 -- varias pessoas podem ter varios estilos de luta

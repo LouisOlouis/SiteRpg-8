@@ -99,7 +99,7 @@ VALUES
 ('Sombras Fugitivas', 'Ao receber golpe fatal, há 30% de chance de se tornar intangível por 1 turno em vez de morrer.'),
 ('Coroa de Cinzas', 'Aliados próximos ganham +1 moral; usuário recebe 5% a mais de dano enquanto ativo.'),
 ('Chamariz de Ouro', 'Converte loot de inimigos em moedas com 25% de redução no valor real.'),
-('Espectro de Chamas', 'Permite envolver a arma em chamas, transformando ataques físicos em ataques de fogo.'),
+('Espectro de Chamas', 'Permite envolver a arma em chamas, transformando ataques físicos em ataques de fogo, tambem permite utilizar poderes de fogo.'),
 ('Excamur', 'Transforma item de ataque em escudo de escamas temporário; após alguns ataques a arma retorna ao normal.'),
 ('Golden', 'Concede magia de cura e transforma vestimentas em liga metálica de bronze.'),
 ('Traidor', 'Permite roubar HP de aliados ou animais de estimação quando aplicado em arma ou vestimenta.'),
@@ -123,7 +123,6 @@ VALUES
 ('Pele de Vidro', 'Converte parte do dano mágico recebido em proteção física temporária; causa tontura após uso.'),
 ('Rastro de Cinza', 'Ao fugir, deixa rastro ilusório que confunde perseguidores por 2 turnos; não funciona em terreno aberto sem cobertura.'),
 ('Infinidade', 'Permite que o item utilize munição sem consumi-la. Desde que o portador possua ao menos uma unidade de munição.'),
-('Fogo', 'Envolve o item em chamas místicas, transformando seus ataques em manifestações ardentes que queimam o alvo.'),
 ('Raios', 'Concede dano elétrico adicional e pequena chance de paralisar o alvo por 1 turno. Ataques podem saltar para um inimigo próximo.'),
 ('Água', 'Imbuí o item com a fluidez da água, permitindo que seus ataques se moldem e atinjam com força líquida e adaptável.'),
 ('Vento', 'Infunde o item com a leveza e velocidade do vento, tornando seus golpes mais rápidos e difíceis de conter.');
@@ -213,7 +212,7 @@ VALUES
 
 INSERT INTO estilos_luta (nome, descricao) 
 VALUES
-('Luta de Rua', 'Estilo instintivo baseado em autodefesa, com socos e chutes irregulares que cumprem seu propósito.'),
+('Sem estilo', 'Estilo instintivo que cumpre seu propósito sem buffs e debuffs.'),
 ('Zooraquitem', 'Permite que o usuário corra ou ataque imitando movimentos e instintos de animais.'),
 ('Pro Player', 'Permite realizar dois ataques em sequência e melhora a velocidade geral do usuário.'),
 ('Capoeira', 'Permite desviar de ataques por um período determinado.'),
