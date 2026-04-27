@@ -1,8 +1,13 @@
 <?php
-$server = "localhost";
-$user = "root";
-$pass = "***REMOVED***";
-$db = "siterpg";
+require __DIR__ . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$host = $_ENV['DB_HOST'];
+$user = $_ENV['DB_USER'];
+$pass = $_ENV['DB_PASSWORD'];
+$db   = $_ENV['DB_NAME'];
 
     if ( $conn = mysqli_connect($server, $user, $pass, $db) ) {
         //echo "Conectado!";
