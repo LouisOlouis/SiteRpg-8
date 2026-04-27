@@ -9,7 +9,7 @@ $user = $_ENV['DB_USER'];
 $pass = $_ENV['DB_PASSWORD'];
 $db   = $_ENV['DB_NAME'];
 
-    if ( $conn = mysqli_connect($server, $user, $pass, $db) ) {
+    if ( $conn = mysqli_connect($host, $user, $pass, $db) ) {
         //echo "Conectado!";
     } else {
         error_log( mysqli_connect_error() );

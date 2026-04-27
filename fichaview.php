@@ -102,14 +102,21 @@ while ($row = $result_itens->fetch_assoc()) {
 
 
 //habilidades
-/*$stmt = $conn->prepare("SELECT
-    estiloluta.nome,
-    encantamentos.encantamento
+$stmt = $conn->prepare("SELECT
+    estilos_luta.nome
     
-    FROM 
+    FROM R_player_estiloluta
+    
+    JOIN estilos_luta ON R_player_estiloluta.id_estiloluta = estilos_luta.id
 
-")
-*/
+    where id_player = ?
+
+");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result_estiloluta = $stmt->get_result();
+$estiloluta = $result_estiloluta->fetch_assoc();
+$stmt->close();
 
 
 ?>
@@ -180,5 +187,6 @@ while ($row = $result_itens->fetch_assoc()) {
 <div class="content">
     <div class="fichas">
         <h2>Habilidades:</h2>
+        <h3>Estilo de Luta: <?php echo htmlspecialchars($estiloluta["nome"]); ?></h3>
     </div>
 </div>

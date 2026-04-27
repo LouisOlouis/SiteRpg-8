@@ -135,7 +135,7 @@ CREATE TABLE R_player_encantamento (
     id_player INT,
     foreign key (id_player) references player_base(id),
 	id_encantamentos INT,
-    foreign key (id_encantamentos) references encantamentos(id)
+    foreign key (id_encantamentos) references encantamentos(id),
     level INT
     );
     
@@ -170,7 +170,7 @@ CREATE TABLE player_tecnicas (
 CREATE TABLE player_jutsus (
 	id INT auto_increment PRIMARY KEY,
     id_tecnica INT,
-	foreign key (id_tecnica) references tecnicas(id),
+	foreign key (id_tecnica) references player_tecnicas(id),
 	nome VARCHAR(25) NOT NULL,
     custo INT,
     id_energia_custo INT,
