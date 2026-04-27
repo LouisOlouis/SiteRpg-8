@@ -102,6 +102,7 @@ while ($row = $result_itens->fetch_assoc()) {
 
 
 //habilidades
+<<<<<<< HEAD
 $stmt = $conn->prepare("SELECT
     estilos_luta.nome
     
@@ -117,6 +118,16 @@ $stmt->execute();
 $result_estiloluta = $stmt->get_result();
 $estiloluta = $result_estiloluta->fetch_assoc();
 $stmt->close();
+=======
+/*$stmt = $conn->prepare("SELECT
+    estiloluta.nome,
+    encantamentos.encantamento
+    
+    FROM 
+
+")
+*/
+>>>>>>> 3160879d1b7967ac902b8ddcc9501ad489b32d9d
 
 
 ?>
@@ -187,6 +198,9 @@ $stmt->close();
 <div class="content">
     <div class="fichas">
         <h2>Habilidades:</h2>
+<<<<<<< HEAD
         <h3>Estilo de Luta: <?php echo htmlspecialchars($estiloluta["nome"]); ?></h3>
+=======
+>>>>>>> 3160879d1b7967ac902b8ddcc9501ad489b32d9d
     </div>
 </div>

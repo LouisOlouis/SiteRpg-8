@@ -9,7 +9,11 @@ $user = $_ENV['DB_USER'];
 $pass = $_ENV['DB_PASSWORD'];
 $db   = $_ENV['DB_NAME'];
 
+<<<<<<< HEAD
     if ( $conn = mysqli_connect($host, $user, $pass, $db) ) {
+=======
+    if ( $conn = mysqli_connect($server, $user, $pass, $db) ) {
+>>>>>>> 3160879d1b7967ac902b8ddcc9501ad489b32d9d
         //echo "Conectado!";
     } else {
         error_log( mysqli_connect_error() );

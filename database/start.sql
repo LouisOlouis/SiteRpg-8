@@ -135,7 +135,11 @@ CREATE TABLE R_player_encantamento (
     id_player INT,
     foreign key (id_player) references player_base(id),
 	id_encantamentos INT,
+<<<<<<< HEAD
     foreign key (id_encantamentos) references encantamentos(id),
+=======
+    foreign key (id_encantamentos) references encantamentos(id)
+>>>>>>> 3160879d1b7967ac902b8ddcc9501ad489b32d9d
     level INT
     );
     
