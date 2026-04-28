@@ -58,10 +58,11 @@ $stmt->close();
 
 //itens
 $stmt = $conn->prepare("SELECT
-    itens.id,
+    itens.id as id_itens,
     itens.item,
 
     R_item_player_encantamento.level,
+    encantamentos.id as id_encantamentos,
     encantamentos.encantamento
 
     FROM R_player_item
@@ -85,15 +86,16 @@ $itensAgrupados = [];
 while ($row = $result_itens->fetch_assoc()) {
     //$id = $row['id'];
 
-    if (!isset($itensAgrupados[$row['id']])) {
-        $itensAgrupados[$row['id']] = [
+    if (!isset($itensAgrupados[$row['id_itens']])) {
+        $itensAgrupados[$row['id_itens']] = [
             'item' => $row['item'],
             'encantamentos' => []
         ];
     }
 
     if ($row['encantamento']) {
-        $itensAgrupados[$row['id']]['encantamentos'][] = [
+        $itensAgrupados[$row['id_itens']]['encantamentos'][] = [
+            'id' => $row['id_encantamentos'],
             'nome' => $row['encantamento'],
             'level' => $row['level']
         ];
@@ -102,6 +104,7 @@ while ($row = $result_itens->fetch_assoc()) {
 
 
 //habilidades
+//estiloluta
 $stmt = $conn->prepare("SELECT
     estilos_luta.nome
     
@@ -118,6 +121,49 @@ $result_estiloluta = $stmt->get_result();
 $estiloluta = $result_estiloluta->fetch_assoc();
 $stmt->close();
 
+//encantamentos
+$stmt = $conn->prepare("SELECT
+    encantamentos.id,
+    encantamentos.encantamento,
+
+    r_player_encantamento.level
+
+    FROM r_player_encantamento
+
+    JOIN encantamentos ON r_player_encantamento.id_encantamentos = encantamentos.id
+
+    WHERE r_player_encantamento.id_player = ?;
+");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result_encantamentos = $stmt->get_result();
+
+$stmt->close();
+
+$encantamentos = [];
+
+while ($row = $result_encantamentos->fetch_assoc()) {
+    if (!isset($encantamentos[$row['id']])) {
+        $encantamentos[$row['id']] = [
+            'nome' => $row['encantamento'],
+            'level' => $row['level']
+        ];
+    }
+}
+
+$stmt = $conn->prepare("SELECT
+    player_talentos.nome,
+    player_talentos.descricao
+
+    FROM player_talentos
+
+    WHERE id_player = ?;
+");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result_talentos = $stmt->get_result();
+$talentos = $result_talentos->fetch_assoc();
+$stmt->close();
 
 ?>
 <div class="content">
@@ -172,7 +218,9 @@ $stmt->close();
             echo '<h3 class=nome_ficha>' . $item['item'] . '</h3>';
 
             foreach ($item['encantamentos'] as $enc) {
+                echo '<a href="encantamentoview.php?id=' . $enc['id'] . '" class="ficha_link">';
                 echo '<p>' . $enc['nome'] . ' (Lv ' . $enc['level'] . ')</p>';
+                echo '</a>';
             }
 
             echo '</div>';
@@ -187,9 +235,35 @@ $stmt->close();
 <div class="content">
     <div class="fichas">
         <h2>Habilidades:</h2>
-<<<<<<< HEAD
         <h3>Estilo de Luta: <?php echo htmlspecialchars($estiloluta["nome"]); ?></h3>
-=======
->>>>>>> 3160879d1b7967ac902b8ddcc9501ad489b32d9d
+        <h3>Encantamentos:</h3>
+        <?php
+        if ($encantamentos == null){
+            echo "<h3>Sem encantamentos</h3>";
+        } else {
+            foreach ($encantamentos as $id_enc => $enc){
+                echo '<a href="encantamentoview.php?id=' . $id_enc . '" class="ficha_link">';
+                echo '<div class="ficha">';
+
+                echo '<p>' . htmlspecialchars($enc['nome']) . ' (Lv ' . $enc['level'] . ')</p>';
+
+                echo '</div>';
+                echo '</a>';
+                echo '<hr>';
+            }
+        echo "<br>";
+        }
+        ?>
+
+
+        <?php
+        if ($talentos != null){
+            echo "<h3>Talentos:" . htmlspecialchars($talentos['nome']) . "</h3>";
+            echo "<p>" . htmlspecialchars($talentos['descricao']) . "</p>";
+        } else {
+            echo "<h3>Talentos: Sem Talentos </h3>";
+        }
+        ?>
+
     </div>
 </div>

@@ -127,7 +127,7 @@ CREATE TABLE R_item_player_encantamento (
     id_encantamentos INT,
     foreign key (id_encantamentos) references encantamentos(id),
     level INT
-    );
+);
 
 -- varias pessoas podem ter varios encantamentos
 CREATE TABLE R_player_encantamento (
@@ -135,14 +135,10 @@ CREATE TABLE R_player_encantamento (
     id_player INT,
     foreign key (id_player) references player_base(id),
 	id_encantamentos INT,
-<<<<<<< HEAD
     foreign key (id_encantamentos) references encantamentos(id),
-=======
-    foreign key (id_encantamentos) references encantamentos(id)
->>>>>>> 3160879d1b7967ac902b8ddcc9501ad489b32d9d
     level INT
-    );
-    
+);
+
 -- varias pessoas podem ter varios estilos de luta
 CREATE TABLE R_player_estiloluta (
 	id INT auto_increment PRIMARY KEY,
@@ -150,7 +146,7 @@ CREATE TABLE R_player_estiloluta (
     foreign key (id_player) references player_base(id),
 	id_estiloluta INT,
     foreign key (id_estiloluta) references estilos_luta(id)
-    );
+);
     
 -- sistema dos poderes
     
@@ -160,7 +156,7 @@ CREATE TABLE player_talentos (
     foreign key (id_player) references player_base(id),
 	nome VARCHAR(25) NOT NULL,
 	descricao text
-    );
+);
 
 CREATE TABLE player_tecnicas (
 	id INT auto_increment PRIMARY KEY,
@@ -168,7 +164,7 @@ CREATE TABLE player_tecnicas (
     foreign key (id_player) references player_base(id),
     nome VARCHAR(15) NOT NULL,
     descricao text
-    );
+);
 
 
 CREATE TABLE player_jutsus (
