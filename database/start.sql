@@ -174,6 +174,7 @@ CREATE TABLE player_jutsus (
 	nome VARCHAR(25) NOT NULL,
     custo INT,
     id_energia_custo INT,
+    level INT not null,
     foreign key (id_energia_custo) references energias(id),
 	descricao text
 );
