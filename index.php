@@ -12,10 +12,9 @@ include("header.php");
     <div class="card">
         <h2>O que deseja fazer?</h2>
         <a class="Post-Button" href="fichas.php">Ver fichas</a>
-        <a class="Post-Button" href="fichas.php">Ver itens</a>
-        <a class="Post-Button" href="fichas.php">Ver encantamentos</a>
-        <a class="Post-Button" href="fichas.php">Ver estilos de luta</a>
-        <a class="Post-Button" href="fichas.php">Ver titulos</a>
+        <a class="Post-Button" href="itens.php">Ver itens</a>
+        <a class="Post-Button" href="encantamentos.php">Ver encantamentos</a>
+        <a class="Post-Button" href="estilos_luta.php">Ver estilos de luta</a>
     </div>
 </div>
 </body>

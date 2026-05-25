@@ -3,7 +3,8 @@ include("conexao.php");
 include("header.php");
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 1;
-//fichas
+
+// ficha principal
 $stmt = $conn->prepare("SELECT 
     player_base.nome,
     player_base.efeitos,
@@ -56,7 +57,7 @@ $result = $stmt->get_result();
 $ficha = $result->fetch_assoc();
 $stmt->close();
 
-//itens
+// itens
 $stmt = $conn->prepare("SELECT
     itens.id as id_itens,
     itens.item,
@@ -80,12 +81,9 @@ $stmt->execute();
 $result_itens = $stmt->get_result();
 $stmt->close();
 
-
 $itensAgrupados = [];
 
 while ($row = $result_itens->fetch_assoc()) {
-    //$id = $row['id'];
-
     if (!isset($itensAgrupados[$row['id_itens']])) {
         $itensAgrupados[$row['id_itens']] = [
             'item' => $row['item'],
@@ -95,80 +93,158 @@ while ($row = $result_itens->fetch_assoc()) {
 
     if ($row['encantamento']) {
         $itensAgrupados[$row['id_itens']]['encantamentos'][] = [
-            'id' => $row['id_encantamentos'],
-            'nome' => $row['encantamento'],
+            'id'    => $row['id_encantamentos'],
+            'nome'  => $row['encantamento'],
             'level' => $row['level']
         ];
     }
 }
 
-
-//habilidades
-//estiloluta
+// estilo de luta
 $stmt = $conn->prepare("SELECT
     estilos_luta.nome
-    
     FROM R_player_estiloluta
-    
     JOIN estilos_luta ON R_player_estiloluta.id_estiloluta = estilos_luta.id
-
-    where id_player = ?
-
-");
+    WHERE id_player = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result_estiloluta = $stmt->get_result();
 $estiloluta = $result_estiloluta->fetch_assoc();
 $stmt->close();
 
-//encantamentos
+// encantamentos do player
 $stmt = $conn->prepare("SELECT
     encantamentos.id,
     encantamentos.encantamento,
-
     r_player_encantamento.level
-
     FROM r_player_encantamento
-
     JOIN encantamentos ON r_player_encantamento.id_encantamentos = encantamentos.id
-
-    WHERE r_player_encantamento.id_player = ?;
-");
+    WHERE r_player_encantamento.id_player = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result_encantamentos = $stmt->get_result();
-
 $stmt->close();
 
 $encantamentos = [];
-
 while ($row = $result_encantamentos->fetch_assoc()) {
     if (!isset($encantamentos[$row['id']])) {
         $encantamentos[$row['id']] = [
-            'nome' => $row['encantamento'],
+            'nome'  => $row['encantamento'],
             'level' => $row['level']
         ];
     }
 }
 
+// talentos
 $stmt = $conn->prepare("SELECT
     player_talentos.nome,
     player_talentos.descricao
-
     FROM player_talentos
-
-    WHERE id_player = ?;
-");
+    WHERE id_player = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result_talentos = $stmt->get_result();
 $talentos = $result_talentos->fetch_assoc();
 $stmt->close();
 
+// técnicas e jutsus
+$stmt = $conn->prepare("SELECT
+    player_tecnicas.nome as nome_tecnica,
+    player_tecnicas.descricao as descricao_tecnica,
+
+    player_jutsus.nome as nome_jutsu,
+    player_jutsus.custo,
+    player_jutsus.level,
+    player_jutsus.descricao as descricao_jutsu
+
+    FROM player_tecnicas
+    JOIN player_jutsus ON player_tecnicas.id = player_jutsus.id_tecnica
+    WHERE player_tecnicas.id_player = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result_tecnicas = $stmt->get_result();
+$stmt->close();
+
+$tecnicas = [];
+while ($row = $result_tecnicas->fetch_assoc()) {
+    if (!isset($tecnicas[$row['nome_tecnica']])) {
+        $tecnicas[$row['nome_tecnica']] = [
+            'descricao' => $row['descricao_tecnica'],
+            'jutsus'    => []
+        ];
+    }
+    $tecnicas[$row['nome_tecnica']]['jutsus'][] = [
+        'nome'     => $row['nome_jutsu'],
+        'descricao'=> $row['descricao_jutsu'],
+        'custo'    => $row['custo'],
+        'level'    => $row['level']
+    ];
+}
+
+// habilidades básicas
+$stmt = $conn->prepare("SELECT
+    habilidades_basicas.id,
+    habilidades_basicas.nome,
+    habilidades_basicas.custo,
+    habilidades_basicas.id_energia_custo,
+    energias.nome as energia_nome,
+    R_player_habilidades_basicas.level
+
+    FROM R_player_habilidades_basicas
+    JOIN habilidades_basicas ON R_player_habilidades_basicas.id_habilidade_basica = habilidades_basicas.id
+    LEFT JOIN energias ON habilidades_basicas.id_energia_custo = energias.id
+    WHERE R_player_habilidades_basicas.id_player = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result_hab_basicas = $stmt->get_result();
+$stmt->close();
+
+$habilidades_basicas = [];
+while ($row = $result_hab_basicas->fetch_assoc()) {
+    $habilidades_basicas[] = [
+        'id'         => $row['id'],
+        'nome'       => $row['nome'],
+        'custo'      => $row['custo'],
+        'energia'    => $row['energia_nome'],
+        'level'      => $row['level']
+    ];
+}
+
+// habilidades de classe
+$stmt = $conn->prepare("SELECT
+    habilidades_classe.id,
+    habilidades_classe.nome,
+    habilidades_classe.custo,
+    habilidades_classe.descricao,
+    energias.nome as energia_nome,
+    R_player_habilidade_classe.level
+
+    FROM R_player_habilidade_classe
+    JOIN habilidades_classe ON R_player_habilidade_classe.id_habilidade_classe = habilidades_classe.id
+    LEFT JOIN energias ON habilidades_classe.id_energia_custo = energias.id
+    WHERE R_player_habilidade_classe.id_player = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result_hab_classe = $stmt->get_result();
+$stmt->close();
+
+$habilidades_classe = [];
+while ($row = $result_hab_classe->fetch_assoc()) {
+    $habilidades_classe[] = [
+        'id'      => $row['id'],
+        'nome'    => $row['nome'],
+        'custo'   => $row['custo'],
+        'energia' => $row['energia_nome'],
+        'descricao'=> $row['descricao'],
+        'level'   => $row['level']
+    ];
+}
 ?>
+
 <div class="content">
     <h2>Ficha</h2>
 </div>
+
 <div class="content">
     <div class="fichas">
         <h2>Informações</h2>
@@ -179,6 +255,7 @@ $stmt->close();
         <h3>Dinheiro: <?php echo htmlspecialchars($ficha["dinheiro"]); ?></h3>
     </div>
 </div>
+
 <div class="content">
     <div class="fichas">
         <h2>Status</h2>
@@ -197,6 +274,7 @@ $stmt->close();
         <h3>Aura: <?php echo htmlspecialchars($ficha["aura"]); ?></h3>
     </div>
 </div>
+
 <div class="content">
     <div class="fichas">
         <h2>Mente</h2>
@@ -206,64 +284,112 @@ $stmt->close();
         <h3>RM: <?php echo htmlspecialchars($ficha["rm"]); ?></h3>
     </div>
 </div>
+
 <div class="content">
     <div class="fichas">
         <h2>Itens</h2>
-
-        <?php
-        foreach ($itensAgrupados as $id_item => $item) {
-            echo '<a href="itemview.php?id=' . $id_item . '" class="ficha_link">';
-            echo '<div class="ficha">';
-            
-            echo '<h3 class=nome_ficha>' . $item['item'] . '</h3>';
-
-            foreach ($item['encantamentos'] as $enc) {
-                echo '<a href="encantamentoview.php?id=' . $enc['id'] . '" class="ficha_link">';
-                echo '<p>' . $enc['nome'] . ' (Lv ' . $enc['level'] . ')</p>';
-                echo '</a>';
-            }
-
-            echo '</div>';
-            echo '</a>';
-            echo '<hr>';
-        }
-        ?>
-
+        <?php foreach ($itensAgrupados as $id_item => $item): ?>
+            <a href="itemview.php?id=<?php echo $id_item; ?>" class="ficha_link">
+                <div class="ficha">
+                    <h3 class="nome_ficha"><?php echo htmlspecialchars($item['item']); ?></h3>
+                    <?php foreach ($item['encantamentos'] as $enc): ?>
+                        <a href="encantamentoview.php?id=<?php echo $enc['id']; ?>" class="ficha_link">
+                            <p><?php echo htmlspecialchars($enc['nome']); ?> (Lv <?php echo $enc['level']; ?>)</p>
+                        </a>
+                    <?php endforeach; ?>
+                </div>
+            </a>
+            <hr>
+        <?php endforeach; ?>
     </div>
 </div>
 
 <div class="content">
     <div class="fichas">
-        <h2>Habilidades:</h2>
-        <h3>Estilo de Luta: <?php echo htmlspecialchars($estiloluta["nome"]); ?></h3>
+        <h2>Habilidades</h2>
+
+        <h3>Estilo de Luta: <?php echo htmlspecialchars($estiloluta["nome"] ?? "Sem estilo"); ?></h3>
+
         <h3>Encantamentos:</h3>
-        <?php
-        if ($encantamentos == null){
-            echo "<h3>Sem encantamentos</h3>";
-        } else {
-            foreach ($encantamentos as $id_enc => $enc){
-                echo '<a href="encantamentoview.php?id=' . $id_enc . '" class="ficha_link">';
-                echo '<div class="ficha">';
+        <?php if (empty($encantamentos)): ?>
+            <h3>Sem encantamentos</h3>
+        <?php else: ?>
+            <?php foreach ($encantamentos as $id_enc => $enc): ?>
+                <a href="encantamentoview.php?id=<?php echo $id_enc; ?>" class="ficha_link">
+                    <div class="ficha">
+                        <p><?php echo htmlspecialchars($enc['nome']); ?> (Lv <?php echo $enc['level']; ?>)</p>
+                    </div>
+                </a>
+                <hr>
+            <?php endforeach; ?>
+            <br>
+        <?php endif; ?>
 
-                echo '<p>' . htmlspecialchars($enc['nome']) . ' (Lv ' . $enc['level'] . ')</p>';
+        <?php if ($talentos != null): ?>
+            <h3>Talentos: <?php echo htmlspecialchars($talentos['nome']); ?></h3>
+            <p><?php echo htmlspecialchars($talentos['descricao']); ?></p>
+        <?php else: ?>
+            <h3>Talentos: Sem Talentos</h3>
+        <?php endif; ?>
 
-                echo '</div>';
-                echo '</a>';
-                echo '<hr>';
-            }
-        echo "<br>";
-        }
-        ?>
+        <br>
+        <h3>Habilidades Básicas:</h3>
+        <?php if (empty($habilidades_basicas)): ?>
+            <p>Sem habilidades básicas</p>
+        <?php else: ?>
+            <?php foreach ($habilidades_basicas as $hab): ?>
+                <div class="ficha">
+                    <p><strong><?php echo htmlspecialchars($hab['nome']); ?></strong> (Lv <?php echo htmlspecialchars($hab['level']); ?>)</p>
+                    <?php if ($hab['custo'] !== null): ?>
+                        <p>Custo: <?php echo htmlspecialchars($hab['custo']); ?> <?php echo htmlspecialchars($hab['energia'] ?? ''); ?></p>
+                    <?php endif; ?>
+                </div>
+                <hr>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
+        <br>
+        <h3>Habilidades de Classe:</h3>
+        <?php if (empty($habilidades_classe)): ?>
+            <p>Sem habilidades de classe</p>
+        <?php else: ?>
+            <?php foreach ($habilidades_classe as $hab): ?>
+                <div class="ficha">
+                    <p><strong><?php echo htmlspecialchars($hab['nome']); ?></strong> (Lv <?php echo htmlspecialchars($hab['level']); ?>)</p>
+                    <?php if ($hab['custo'] !== null): ?>
+                        <p>Custo: <?php echo htmlspecialchars($hab['custo']); ?> <?php echo htmlspecialchars($hab['energia'] ?? ''); ?></p>
+                    <?php endif; ?>
+                    <?php if ($hab['descricao']): ?>
+                        <p><?php echo htmlspecialchars($hab['descricao']); ?></p>
+                    <?php endif; ?>
+                </div>
+                <hr>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
-        <?php
-        if ($talentos != null){
-            echo "<h3>Talentos:" . htmlspecialchars($talentos['nome']) . "</h3>";
-            echo "<p>" . htmlspecialchars($talentos['descricao']) . "</p>";
-        } else {
-            echo "<h3>Talentos: Sem Talentos </h3>";
-        }
-        ?>
+        <br>
+        <h3>Tecnicas:</h3>
+        <?php if (empty($tecnicas)): ?>
+            <h3>Sem técnicas</h3>
+        <?php else: ?>
+            <?php foreach ($tecnicas as $nome_tecnica => $tecnica): ?>
+                <div class="ficha">
+                    <h3><?php echo htmlspecialchars($nome_tecnica); ?></h3>
+                    <p><?php echo htmlspecialchars($tecnica['descricao']); ?></p>
+                    <h4>Jutsus:</h4>
+                    <?php foreach ($tecnica['jutsus'] as $jutsu): ?>
+                        <div class="subficha">
+                            <p><strong><?php echo htmlspecialchars($jutsu['nome']); ?></strong></p>
+                            <p>Level: <?php echo htmlspecialchars($jutsu['level']); ?></p>
+                            <p>Custo: <?php echo htmlspecialchars($jutsu['custo'] ?? '—'); ?></p>
+                            <p><?php echo htmlspecialchars($jutsu['descricao']); ?></p>
+                        </div>
+                        <hr>
+                    <?php endforeach; ?>
+                </div>
+                <br>
+            <?php endforeach; ?>
+        <?php endif; ?>
 
     </div>
 </div>

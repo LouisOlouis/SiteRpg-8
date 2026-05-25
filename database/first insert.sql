@@ -250,7 +250,7 @@ VALUES
 
 INSERT INTO player_status (id_player,level, hp, forca, velocidade, agilidade, durabilidade, combate, experiencia)
 VALUES
-(1, 24, 201, 34, 21, 28, 48, 12, 10),
+(1, 30, 201, 34, 25, 32, 48, 13, 15),
 (2, 20,210, 30, 20, 20, 20, 8, 17),
 (3, 11, 328, 8, 4, 5, 6, 9, 6),
 (4, 20, 150, 12, 7, 12, 16, 3, 5),
