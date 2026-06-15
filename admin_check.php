@@ -4,7 +4,7 @@ function is_admin(): bool {
     return isset($_SESSION['isadmin']) && $_SESSION['isadmin'] === true;
 }
 
-// Aborta com 403 se não for admin — use no topo de páginas de ação
+// Aborta com 403 se não for admin — no topo de páginas de ação
 function require_admin(): void {
     if (!is_admin()) {
         http_response_code(403);

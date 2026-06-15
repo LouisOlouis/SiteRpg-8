@@ -1,6 +1,7 @@
 <?php
-include ('conexao.php');
-include("header.php");
+ob_start();
+include('conexao.php');
+include('header.php');
 
 $invisivel_erro = 'style="display: none;"';
 $mensagem = '';
@@ -78,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h3>Confirme sua senha</h3>
         <input type="password" name="senha2" autocomplete="off" required>
         <br>
-        <h4 class="erro" $invisivel_erro><?= $mensagem?></h4>
+        <h4 class="erro" <?= $invisivel_erro ?>><?= $mensagem ?></h4>
         <button type="submit">Registrar</button>
     </form>
     <br>

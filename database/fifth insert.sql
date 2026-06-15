@@ -21,7 +21,7 @@ USE SiteRPG;
 
 INSERT INTO player_tecnicas (id_player, nome, descricao)
 VALUES
-(1, 'Jutsu Corrompido', 'Técnica baseada em energia amaldiçoada corrompida.');
+(1, 'Jutsu Corrupt', 'Técnica baseada em energia amaldiçoada corrompida.');
 
 INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao)
 VALUES
@@ -104,7 +104,7 @@ VALUES
 (5, 'Chuva da Morte',     40,  2, 3, '-- TODO: adicionar descrição detalhada'),
 (5, 'Cura Energética',    20,  1, 3, 'Custo: 20 Stamina + energia absorvida. -- TODO: revisar custo misto no schema'),
 (5, 'Invocação Caótica',  100, 2, 1, '-- TODO: adicionar descrição detalhada'),
-(5, 'Expansão do Vazio',  150, 2, 1, 'Refino 1. -- TODO: adicionar descrição detalhada');
+(5, 'Expansão Vazia',  150, 2, 1, 'Refino 1. -- TODO: adicionar descrição detalhada');
 
 INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao)
 VALUES
@@ -201,4 +201,4 @@ VALUES
 (10, 'Puro Instinto',                     NULL, 1, 0, 'Bloqueado.'),
 (10, 'Reorganização do Campo',            NULL, 1, 0, 'Bloqueado.'),
 (10, 'Efeito Placebo',                    NULL, 1, 0, 'Bloqueado.'),
-(10, 'Expansão de Domínio: Right Behind', NULL, 1, 0, 'Bloqueado.');
+(10, 'Right Behind', NULL, 1, 0, 'Bloqueado.');

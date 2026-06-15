@@ -1,182 +1,84 @@
 USE SiteRPG;
 
 -- ============================================================
--- 7th INSERT — versão corrigida, sem subqueries em VALUES
--- Todos os IDs são hardcodados com referência comentada
+-- SEVENTH UPDATE - Atualização geral das fichas F001-F009
+--                  + Inserção dos novos players F010 e F011
 -- ============================================================
--- MAPA DE IDs (acumulado de todos os inserts anteriores)
---
--- CLASSES:
---   1=Guerreiro  2=Paladino   3=Sniper    4=Invocador  5=Bardo
---   6=Mago       7=Tank       8=Healer    9=Assassino  10=Ladino
---   11=Monge     12=Barbaro   13=Clerigo  14=Destruidor 15=Anti-Tank
---   16=Receptáculo (novo)  17=Zero (novo)  18=Dragão (novo)
---
--- ENERGIAS:  1=Prana  2=E.A.  3=Aura
---
--- TÍTULOS (novos, após os 38 do first_insert):
---   39=Receptáculo do Deus do Trovão
---   40=Nome Completo Dom Saurom (longo)
---   41=Dragão Verdadeiro
---   42=Fujão
---
--- HABILIDADES BÁSICAS:
---   1=Recharge  2=Passo Furtivo  3=Olho do Falcão
---   4=Defesa da Tartaruga Leão   5=Coração de Leão  6=Soco de Núcleo
---   7=Instinto (novo)  8=Acordos (novo)
---
--- HABILIDADES DE CLASSE:
---   1=Regeneração E.A.  2=Resistência Infernal  3=Sobrevivência Crítica
---   4=Invocação do Instinto  5=Invocação Mafioso  6=Golpe Marcial
---   7=Impacto Reluzente  8=Linha de Tiro Calculada
---   9=Cura  10=Recharge(Healer)  11=Acúmulo de E.A.
---
--- PLAYER_TECNICAS:
---   1=Jutsu Corrompido(1)  2=Shinigami(3)  3=Guerra(4)  4=Infernal(4)
---   5=Técnica Base(5)  6=Jutsus Gulados(5)  7=Técnica Base(6)
---   8=Técnica Base(7)  9=Técnica Base(8)  10=Técnica Base(9)
---   11=Segunda Chance(10/Dom Saurom)  12=Arte Dracônica(11/Drakkmar)
---
--- PLAYERS:
---   1=Lukis  2=Dio  3=Damian  4=Adrian  5=Aurelian
---   6=Ikulian  7=Bachira  8=Yuri  9=Koishi
---   10=Dom Saurom (novo)  11=Drakkmar (novo)
+-- ATENÇÃO: execute na ordem. Não mexa nas invocações ainda.
 -- ============================================================
 
 
--- ────────────────────────────────────────────────────────────
--- STEP 1: NOVAS CLASSES (só insere se não existir)
--- ────────────────────────────────────────────────────────────
+-- ============================================================
+-- 1. NOVAS CLASSES
+-- ============================================================
+-- ids continuam após 15 (Anti-Tank):
+--   16 = Receptáculo
+--   17 = Demônio
+--   18 = Zero
+--   19 = Dragão
 
-INSERT INTO classes (classe)
-SELECT 'Receptáculo' WHERE NOT EXISTS (SELECT 1 FROM classes WHERE classe = 'Receptáculo');
-
-INSERT INTO classes (classe)
-SELECT 'Zero' WHERE NOT EXISTS (SELECT 1 FROM classes WHERE classe = 'Zero');
-
-INSERT INTO classes (classe)
-SELECT 'Dragão' WHERE NOT EXISTS (SELECT 1 FROM classes WHERE classe = 'Dragão');
-
-
--- ────────────────────────────────────────────────────────────
--- STEP 2: NOVOS TÍTULOS
--- ────────────────────────────────────────────────────────────
-
-INSERT INTO titulos (titulo)
-SELECT 'Receptáculo do Deus do Trovão'
-WHERE NOT EXISTS (SELECT 1 FROM titulos WHERE titulo = 'Receptáculo do Deus do Trovão');
-
-INSERT INTO titulos (titulo)
-SELECT 'Nome Completo: Dom Saurom Solen Miyamoto Drácula Hattori Arc Pendragon Haya Magno'
-WHERE NOT EXISTS (SELECT 1 FROM titulos WHERE titulo LIKE 'Nome Completo%');
-
-INSERT INTO titulos (titulo)
-SELECT 'Dragão Verdadeiro'
-WHERE NOT EXISTS (SELECT 1 FROM titulos WHERE titulo = 'Dragão Verdadeiro');
-
-INSERT INTO titulos (titulo)
-SELECT 'Fujão'
-WHERE NOT EXISTS (SELECT 1 FROM titulos WHERE titulo = 'Fujão');
-
-
--- ────────────────────────────────────────────────────────────
--- STEP 3: NOVAS HABILIDADES BÁSICAS
--- ────────────────────────────────────────────────────────────
-
-INSERT INTO habilidades_basicas (nome, custo, id_energia_custo)
-SELECT 'Instinto', 30, 1
-WHERE NOT EXISTS (SELECT 1 FROM habilidades_basicas WHERE nome = 'Instinto');
-
-INSERT INTO habilidades_basicas (nome, custo, id_energia_custo)
-SELECT 'Acordos', 0, NULL
-WHERE NOT EXISTS (SELECT 1 FROM habilidades_basicas WHERE nome = 'Acordos');
-
-
--- ────────────────────────────────────────────────────────────
--- STEP 4: NOVOS ITENS
--- ────────────────────────────────────────────────────────────
-
-INSERT INTO itens (item, id_raridade, descricao)
-SELECT 'Lança Gravity', 3, 'Lança imbuída com propriedades gravitacionais.'
-WHERE NOT EXISTS (SELECT 1 FROM itens WHERE item = 'Lança Gravity');
-
-INSERT INTO itens (item, id_raridade, descricao)
-SELECT 'Espada Múltipla de Sombra', 3, 'Espada que pode se multiplicar nas sombras.'
-WHERE NOT EXISTS (SELECT 1 FROM itens WHERE item = 'Espada Múltipla de Sombra');
-
-INSERT INTO itens (item, id_raridade, descricao)
-SELECT '3 Miniguns', 2, 'Três miniguns para uso em combate.'
-WHERE NOT EXISTS (SELECT 1 FROM itens WHERE item = '3 Miniguns');
-
-INSERT INTO itens (item, id_raridade, descricao)
-SELECT 'Espada de Luz', 3, 'Espada imbuída com energia de luz.'
-WHERE NOT EXISTS (SELECT 1 FROM itens WHERE item = 'Espada de Luz');
-
-INSERT INTO itens (item, id_raridade, descricao)
-SELECT 'Espada de Fogo', 3, 'Espada imbuída com chamas.'
-WHERE NOT EXISTS (SELECT 1 FROM itens WHERE item = 'Espada de Fogo');
-
-INSERT INTO itens (item, id_raridade, descricao)
-SELECT 'Tormenta Rubra', 4, '-- TODO: adicionar descrição detalhada'
-WHERE NOT EXISTS (SELECT 1 FROM itens WHERE item = 'Tormenta Rubra');
-
-INSERT INTO itens (item, id_raridade, descricao)
-SELECT 'Brasão Solen', 1, 'Brasão da família Solen.'
-WHERE NOT EXISTS (SELECT 1 FROM itens WHERE item = 'Brasão Solen');
-
-INSERT INTO itens (item, id_raridade, descricao)
-SELECT 'Runa Roxa', 2, 'Runa com Ressonância Lunar II — não aplicada/encantada.'
-WHERE NOT EXISTS (SELECT 1 FROM itens WHERE item = 'Runa Roxa');
-
-INSERT INTO itens (item, id_raridade, descricao)
-SELECT 'Runa Verde', 2, 'Runa com Rede de Níquel IV — não aplicada/encantada.'
-WHERE NOT EXISTS (SELECT 1 FROM itens WHERE item = 'Runa Verde');
+INSERT INTO classes (classe) VALUES
+('Receptaculo'),   -- id 16
+('Demonio'),       -- id 17
+('Zero'),          -- id 18
+('Dragao');        -- id 19
 
 
 -- ============================================================
--- A PARTIR DAQUI: usa variáveis para todos os IDs dinâmicos
+-- 2. NOVA ENERGIA
+-- ============================================================
+-- ids existentes: 1=Prana, 2=E.A., 3=Aura
+--   4 = KI
+
+INSERT INTO energias (nome) VALUES
+('KI');  -- id 4
+
+
+-- ============================================================
+-- 3. NOVOS TÍTULOS
+-- ============================================================
+-- Continuando após id 38 (O Problema):
+--   39 = Receptáculo do Deus do Trovão
+--   40 = Mini-Adolf
+--   41 = Abandonado por Deus
+--   42 = Dragão Verdadeiro
+--   43 = Fujão
+--   44 = Nome completo (Dom Saurom)
+
+INSERT INTO titulos (titulo) VALUES
+('Receptaculo do Trovao'),    -- id 39
+('Mini-Adolf'),               -- id 40
+('Abandonado por Deus'),      -- id 41
+('Dragao Verdadeiro'),        -- id 42
+('Fujao'),                    -- id 43
+('Nome Completo');            -- id 44
+-- OBS: o título completo de Dom Saurom é longo demais para VARCHAR(25).
+-- TODO: considerar aumentar o campo titulo para VARCHAR(100) ou TEXT.
+
+
+-- ============================================================
+-- 4. ATUALIZAÇÃO DOS PLAYERS EXISTENTES (F001-F009)
 -- ============================================================
 
--- Carrega IDs de classes novas
-SET @id_receptaculo = (SELECT id FROM classes WHERE classe = 'Receptáculo');
-SET @id_zero        = (SELECT id FROM classes WHERE classe = 'Zero');
-SET @id_dragao      = (SELECT id FROM classes WHERE classe = 'Dragão');
-
--- Carrega IDs de títulos novos
-SET @tit_receptaculo = (SELECT id FROM titulos WHERE titulo = 'Receptáculo do Deus do Trovão');
-SET @tit_saurom      = (SELECT id FROM titulos WHERE titulo LIKE 'Nome Completo%');
-SET @tit_dragao_v    = (SELECT id FROM titulos WHERE titulo = 'Dragão Verdadeiro');
-SET @tit_fujao       = (SELECT id FROM titulos WHERE titulo = 'Fujão');
-
--- Carrega IDs de habilidades básicas novas
-SET @hab_instinto = (SELECT id FROM habilidades_basicas WHERE nome = 'Instinto');
-SET @hab_acordos  = (SELECT id FROM habilidades_basicas WHERE nome = 'Acordos');
-
--- Carrega IDs de itens novos
-SET @item_lanca_gravity    = (SELECT id FROM itens WHERE item = 'Lança Gravity');
-SET @item_espada_sombra    = (SELECT id FROM itens WHERE item = 'Espada Múltipla de Sombra');
-SET @item_miniguns         = (SELECT id FROM itens WHERE item = '3 Miniguns');
-SET @item_espada_luz       = (SELECT id FROM itens WHERE item = 'Espada de Luz');
-SET @item_espada_fogo      = (SELECT id FROM itens WHERE item = 'Espada de Fogo');
-SET @item_tormenta         = (SELECT id FROM itens WHERE item = 'Tormenta Rubra');
-SET @item_brasao_solen     = (SELECT id FROM itens WHERE item = 'Brasão Solen');
-SET @item_runa_roxa        = (SELECT id FROM itens WHERE item = 'Runa Roxa');
-SET @item_runa_verde       = (SELECT id FROM itens WHERE item = 'Runa Verde');
-SET @item_celular          = (SELECT id FROM itens WHERE item = 'Celular');
-
-
--- ────────────────────────────────────────────────────────────
--- STEP 5: UPDATES DE PLAYERS EXISTENTES
--- ────────────────────────────────────────────────────────────
-
--- ── LUKIS (id=1): hp, level, velocidade, agilidade, experiencia ──
-
+-- ------------------------------------------------------------
+-- F001 - LUKIS (id 1)
+-- ------------------------------------------------------------
 UPDATE player_status SET
-    level       = 34,
-    hp          = 330,
-    velocidade  = 25,
-    agilidade   = 32,
-    experiencia = 15
+    level        = 38,
+    hp           = 450,
+    forca        = 34,
+    velocidade   = 25,
+    agilidade    = 32,
+    durabilidade = 55,
+    combate      = 13,
+    experiencia  = 15
+WHERE id_player = 1;
+
+UPDATE player_energias SET
+    energia  = 180,
+    stamina  = 120,
+    iq       = 135,
+    aura     = 14
 WHERE id_player = 1;
 
 UPDATE player_mente SET
@@ -187,33 +89,31 @@ UPDATE player_mente SET
     rm          = 45
 WHERE id_player = 1;
 
-
--- ── DIO SPIN KEINER (id=2): atualiza tudo ──
-
+-- ------------------------------------------------------------
+-- F002 - DIO SPIN KEINER (id 2)
+-- ------------------------------------------------------------
+-- Classe muda para Receptáculo (id 16)
 UPDATE player_base SET
-    nome      = 'Dio Spin Keiner',
-    id_classe = @id_receptaculo,
-    efeitos   = 'Ao se aproximar de uma maldição começa a incomodá-la, e se pá da kill'
+    id_classe = 16,
+    efeitos   = 'Se aproximar de curse a incomoda e pode dar kill'
 WHERE id = 2;
 
-UPDATE player_dinheiro SET dinheiro = 10175, fragmento = 0 WHERE id_player = 2;
-
 UPDATE player_status SET
-    level       = 46,
-    hp          = 1710,
-    forca       = 50,
-    velocidade  = 20,
-    agilidade   = 30,
-    durabilidade= 42,
-    combate     = 18,
-    experiencia = 27
+    level        = 46,
+    hp           = 1710,
+    forca        = 50,
+    velocidade   = 20,
+    agilidade    = 30,
+    durabilidade = 42,
+    combate      = 18,
+    experiencia  = 27
 WHERE id_player = 2;
 
 UPDATE player_energias SET
-    iq      = 196,
-    stamina = 90,
-    energia = 60,
-    aura    = 59
+    energia  = 60,
+    stamina  = 90,
+    iq       = 196,
+    aura     = 59
 WHERE id_player = 2;
 
 UPDATE player_mente SET
@@ -224,97 +124,182 @@ UPDATE player_mente SET
     rm          = 28
 WHERE id_player = 2;
 
--- Títulos do Dio: Graduado(1) e Mestre da Careta(4) já existem no first_insert
--- Adiciona Receptáculo do Deus do Trovão (só se não existir)
-INSERT INTO R_player_titulo (id_player, id_titulo)
-SELECT 2, @tit_receptaculo
-WHERE NOT EXISTS (
-    SELECT 1 FROM R_player_titulo WHERE id_player = 2 AND id_titulo = @tit_receptaculo
-);
+UPDATE player_dinheiro SET dinheiro = 10175 WHERE id_player = 2;
 
--- Estilo de luta: Pro-Player (id=3)
-INSERT INTO R_player_estiloluta (id_player, id_estiloluta)
-SELECT 2, 3
-WHERE NOT EXISTS (
-    SELECT 1 FROM R_player_estiloluta WHERE id_player = 2 AND id_estiloluta = 3
-);
+-- Título novo: Receptáculo do Deus do Trovão (id 39)
+-- Título Mestre da Careta já existe (id 4) e já estava inserido no first_insert
+-- Verificar se já não foi inserido antes de rodar:
+INSERT INTO R_player_titulo (id_player, id_titulo) VALUES
+(2, 39);   -- Receptáculo do Trovão
+-- OBS: (2,4) Mestre da Careta já existe no first_insert.sql
 
--- Habilidades básicas do Dio
-INSERT INTO R_player_habilidades_basicas (id_player, id_habilidade_basica, level)
-SELECT 2, 1, 1 WHERE NOT EXISTS (SELECT 1 FROM R_player_habilidades_basicas WHERE id_player = 2 AND id_habilidade_basica = 1);  -- Recharge
+-- ------------------------------------------------------------
+-- F003 - DAMIAN JACKSON (id 3)
+-- ------------------------------------------------------------
+UPDATE player_status SET
+    level        = 45,
+    hp           = 780,
+    forca        = 25,
+    velocidade   = 15,
+    agilidade    = 14,
+    durabilidade = 41,
+    combate      = 14,
+    experiencia  = 25
+WHERE id_player = 3;
 
-INSERT INTO R_player_habilidades_basicas (id_player, id_habilidade_basica, level)
-SELECT 2, 4, 1 WHERE NOT EXISTS (SELECT 1 FROM R_player_habilidades_basicas WHERE id_player = 2 AND id_habilidade_basica = 4);  -- Defesa da Tartaruga Leão
+UPDATE player_energias SET
+    energia  = 220,
+    stamina  = 165,
+    iq       = 190,
+    aura     = 30
+WHERE id_player = 3;
 
-INSERT INTO R_player_habilidades_basicas (id_player, id_habilidade_basica, level)
-SELECT 2, 6, 1 WHERE NOT EXISTS (SELECT 1 FROM R_player_habilidades_basicas WHERE id_player = 2 AND id_habilidade_basica = 6);  -- Soco de Núcleo
+UPDATE player_mente SET
+    sanidade    = 90,
+    sanidadeMax = 100,
+    stress      = 39,
+    traumas     = 0,
+    rm          = 18
+WHERE id_player = 3;
 
-INSERT INTO R_player_habilidades_basicas (id_player, id_habilidade_basica, level)
-SELECT 2, 2, 1 WHERE NOT EXISTS (SELECT 1 FROM R_player_habilidades_basicas WHERE id_player = 2 AND id_habilidade_basica = 2);  -- Passo Furtivo
+UPDATE player_dinheiro SET dinheiro = 478244 WHERE id_player = 3;
 
--- Habilidade de classe: Golpe Marcial (id=6)
-INSERT INTO R_player_habilidade_classe (id_player, id_habilidade_classe, level)
-SELECT 2, 6, 1
-WHERE NOT EXISTS (SELECT 1 FROM R_player_habilidade_classe WHERE id_player = 2 AND id_habilidade_classe = 6);
+-- Novos itens de Damian
+INSERT INTO itens (item, id_raridade, descricao) VALUES
+('Lanca Gravity',            3, 'Lança imbuída com força gravitacional.'),
+('Espada Multipla Sombra',   4, 'Espada que se replica pelas sombras.'),
+('Mingun',                   3, 'Metralhadora de alta cadência.');
 
--- Talentos do Dio
-INSERT INTO player_talentos (id_player, nome, descricao)
-SELECT 2, 'Aprende Rápido', 'Aprende rapidamente novas técnicas e habilidades.'
-WHERE NOT EXISTS (SELECT 1 FROM player_talentos WHERE id_player = 2 AND nome = 'Aprende Rápido');
+-- Damian recebe: Lança Gravity, Espada Múltipla de Sombra, 3x Mingun (na bolsa do vazio)
+-- OBS: os ids dos itens acima dependem do MAX(id) atual da tabela itens.
+-- Assumindo continuação após id 97 (última faca de Koishi):
+--   98 = Lança Gravity
+--   99 = Espada Múltipla de Sombra
+--   100 = Mingun
+INSERT INTO R_player_item (id_player, id_item) VALUES
+(3, 98),   -- Lança Gravity
+(3, 99),   -- Espada Múltipla de Sombra
+(3, 100),  -- Mingun 1
+(3, 100),  -- Mingun 2
+(3, 100);  -- Mingun 3
 
-INSERT INTO player_talentos (id_player, nome, descricao)
-SELECT 2, 'Bênção Divina do Trovão',
-'Manipular Raios/Eletricidade conforme sua vontade sem restrição, apenas custo. Acordo com a semi-deusa Freya: o jogador é guiado e recebe conselhos e ajuda, mas em troca se torna servo de Freya e deve obedecer suas ordens.'
-WHERE NOT EXISTS (SELECT 1 FROM player_talentos WHERE id_player = 2 AND nome = 'Bênção Divina do Trovão');
+-- ------------------------------------------------------------
+-- F004 - ADRIAN KREUZ (id 4)
+-- ------------------------------------------------------------
+-- Classe muda para Demônio (id 17)
+UPDATE player_base SET
+    id_classe = 17,
+    efeitos   = 'Maligno'
+WHERE id = 4;
 
+UPDATE player_status SET
+    level        = 30,
+    hp           = 1000,
+    forca        = 30,
+    velocidade   = 30,
+    agilidade    = 30,
+    durabilidade = 30,
+    combate      = 16,
+    experiencia  = 20
+WHERE id_player = 4;
 
--- ── DAMIAN (id=3): atualiza descrição da técnica ──
-
-UPDATE player_tecnicas SET
-    descricao = 'Técnica baseada em invocação de criaturas sombrias por energia amaldiçoada. Passivas: pode entrar e se mover nas sombras; pode guardar e trazer itens livremente pelas sombras; sabe usar técnica reversa.'
-WHERE id_player = 3 AND nome = 'Shinigami';
-
--- Itens novos do Damian
-INSERT INTO R_player_item (id_player, id_item)
-SELECT 3, @item_lanca_gravity
-WHERE NOT EXISTS (SELECT 1 FROM R_player_item WHERE id_player = 3 AND id_item = @item_lanca_gravity);
-
-INSERT INTO R_player_item (id_player, id_item)
-SELECT 3, @item_espada_sombra
-WHERE NOT EXISTS (SELECT 1 FROM R_player_item WHERE id_player = 3 AND id_item = @item_espada_sombra);
-
-INSERT INTO R_player_item (id_player, id_item)
-SELECT 3, @item_miniguns
-WHERE NOT EXISTS (SELECT 1 FROM R_player_item WHERE id_player = 3 AND id_item = @item_miniguns);
-
-
--- ── ADRIAN (id=4): mente zerada (evento de campanha) ──
+UPDATE player_energias SET
+    energia  = 1250,
+    stamina  = 150,
+    iq       = 140,
+    aura     = 30
+WHERE id_player = 4;
 
 UPDATE player_mente SET
     sanidade    = 0,
     sanidadeMax = 0,
     stress      = 0,
     traumas     = 1,
-    rm          = 45
+    rm          = 50
 WHERE id_player = 4;
 
+UPDATE player_dinheiro SET dinheiro = 0 WHERE id_player = 4;
 
--- ── IKULIAN (id=6): status, mente, jutsus e itens ──
+-- Título novo: Abandonado por Deus (id 41)
+INSERT INTO R_player_titulo (id_player, id_titulo) VALUES
+(4, 41);
 
+-- Novo item: Armadura rúnica com encantamentos
+INSERT INTO itens (item, id_raridade, descricao) VALUES
+('Armadura Runica', 3, 'Armadura com Runa de Protecao III (+3 durabilidade) e Talisma de Visao II.');
+-- id 101 = Armadura Rúnica
+
+INSERT INTO R_player_item (id_player, id_item) VALUES
+(4, 101);
+
+-- Estilo de luta Capoeira (id 4) para Adrian
+-- OBS: Adrian tinha Capoeira mencionado na ficha mas no forth_insert só tinha id_estiloluta 1 (Sem Estilo).
+-- Adicionando Capoeira (id 4) e Pro-Player (id 3):
+INSERT INTO R_player_estiloluta (id_player, id_estiloluta) VALUES
+(4, 3),  -- Pro-Player
+(4, 4);  -- Capoeira
+
+-- ------------------------------------------------------------
+-- F005 - AURELIAN TEMPEST (id 5)
+-- ------------------------------------------------------------
 UPDATE player_status SET
-    level       = 30,
-    forca       = 31,
-    velocidade  = 25,
-    agilidade   = 25,
-    experiencia = 20,
-    durabilidade= 25,
-    combate     = 10
+    level        = 34,
+    hp           = 226,
+    forca        = 2,
+    velocidade   = 60,
+    agilidade    = 31,
+    durabilidade = 24,
+    combate      = 9,
+    experiencia  = 23
+WHERE id_player = 5;
+
+UPDATE player_energias SET
+    energia  = 200,
+    stamina  = 85,
+    iq       = 160,
+    aura     = 20
+WHERE id_player = 5;
+
+UPDATE player_mente SET
+    sanidade    = 70,
+    sanidadeMax = 90,
+    stress      = 49,
+    traumas     = 2,
+    rm          = 10
+WHERE id_player = 5;
+
+-- Novos itens de Aurelian
+INSERT INTO itens (item, id_raridade, descricao) VALUES
+('Cajado Personalidade',      3, 'Cajado com personalidade propria. HP: 120.'),
+('Talisma de Subjulgacao',    4, 'Talisma nivel 4 de subjulgacao.'),
+('Talisma Destroi Cidade',    5, 'Talisma nivel 7. Poder de destruicao em area de cidade.');
+-- ids: 102 = Cajado Personalidade, 103 = Talisma Subjulgacao, 104 = Talisma Destroi Cidade
+
+INSERT INTO R_player_item (id_player, id_item) VALUES
+(5, 102),   -- Cajado Personalidade
+(5, 103),   -- Talismã Subjulgação 1
+(5, 103),   -- Talismã Subjulgação 2
+(5, 104);   -- Talismã Destroi Cidade
+
+-- ------------------------------------------------------------
+-- F006 - IKULIAN (id 6)
+-- ------------------------------------------------------------
+UPDATE player_status SET
+    level        = 37,
+    hp           = 315,
+    forca        = 35,
+    velocidade   = 30,
+    agilidade    = 30,
+    durabilidade = 30,
+    combate      = 12,
+    experiencia  = 23
 WHERE id_player = 6;
 
 UPDATE player_energias SET
-    stamina = 150,
-    energia = 230,
-    aura    = 20
+    energia  = 255,
+    stamina  = 160,
+    iq       = 130,
+    aura     = 23
 WHERE id_player = 6;
 
 UPDATE player_mente SET
@@ -322,223 +307,326 @@ UPDATE player_mente SET
     sanidadeMax = 95,
     stress      = 72,
     traumas     = 1,
-    rm          = 12
+    rm          = 15
 WHERE id_player = 6;
 
--- Jutsus atualizados de Ikulian (id_tecnica=7)
-UPDATE player_jutsus SET level = 4 WHERE id_tecnica = 7 AND nome = 'Lightning Flash';
-UPDATE player_jutsus SET level = 4 WHERE id_tecnica = 7 AND nome = 'Gravity Push';
-UPDATE player_jutsus SET level = 2, custo = 40, id_energia_custo = 2
+-- Zeus Javelin desbloqueado: lvl 3, custo 40 E.A.
+-- id_tecnica 7 = técnica de Ikulian (fifth_insert.sql)
+UPDATE player_jutsus SET
+    custo   = 40,
+    level   = 3,
+    descricao = '-- TODO: adicionar descrição detalhada'
 WHERE id_tecnica = 7 AND nome = 'Zeus Javelin';
 
--- Itens novos de Ikulian
-INSERT INTO R_player_item (id_player, id_item)
-SELECT 6, @item_espada_luz
-WHERE NOT EXISTS (SELECT 1 FROM R_player_item WHERE id_player = 6 AND id_item = @item_espada_luz);
+-- Vimeinun Myrsky: agora lvl 2, custo ainda NULL (missão pendente)
+UPDATE player_jutsus SET
+    level = 2
+WHERE id_tecnica = 7 AND nome = 'Vimeinun Myrsky';
 
-INSERT INTO R_player_item (id_player, id_item)
-SELECT 6, @item_espada_fogo
-WHERE NOT EXISTS (SELECT 1 FROM R_player_item WHERE id_player = 6 AND id_item = @item_espada_fogo);
+-- Novos itens de Ikulian
+INSERT INTO itens (item, id_raridade, descricao) VALUES
+('Espada de Luz',  4, 'Espada imbuída com energia luminosa.'),
+('Espada de Fogo', 4, 'Espada imbuída com chamas.'),
+('Tormenta Rubra', 4, 'Arma de energia vermelha tempestuosa.');
+-- ids: 105 = Espada de Luz, 106 = Espada de Fogo, 107 = Tormenta Rubra
 
-INSERT INTO R_player_item (id_player, id_item)
-SELECT 6, @item_tormenta
-WHERE NOT EXISTS (SELECT 1 FROM R_player_item WHERE id_player = 6 AND id_item = @item_tormenta);
+INSERT INTO R_player_item (id_player, id_item) VALUES
+(6, 105),   -- Espada de Luz
+(6, 106),   -- Espada de Fogo
+(6, 107);   -- Tormenta Rubra
+
+-- ------------------------------------------------------------
+-- F007 - BACHIRA (id 7)
+-- ------------------------------------------------------------
+UPDATE player_base SET
+    efeitos = 'Destruct (Impede de criar buffs proprios)'
+WHERE id = 7;
+
+UPDATE player_status SET
+    level        = 36,
+    hp           = 295,
+    forca        = 25,
+    velocidade   = 25,
+    agilidade    = 20,
+    durabilidade = 24,
+    combate      = 10,
+    experiencia  = 19
+WHERE id_player = 7;
+
+UPDATE player_energias SET
+    energia  = 290,
+    stamina  = 125,
+    iq       = 130,
+    aura     = 20
+WHERE id_player = 7;
+
+UPDATE player_mente SET
+    sanidade    = 47,
+    sanidadeMax = 90,
+    stress      = 60,
+    traumas     = 0,
+    rm          = 45
+WHERE id_player = 7;
+
+-- Título novo: Mini-Adolf (id 40)
+INSERT INTO R_player_titulo (id_player, id_titulo) VALUES
+(7, 40);
+
+-- ------------------------------------------------------------
+-- F008 - YURI KONSHKINA (id 8)
+-- ------------------------------------------------------------
+UPDATE player_status SET
+    level        = 20,
+    hp           = 145,
+    forca        = 15,
+    velocidade   = 13,
+    agilidade    = 13,
+    durabilidade = 13,
+    combate      = 10,
+    experiencia  = 9
+WHERE id_player = 8;
+
+UPDATE player_energias SET
+    energia  = 110,
+    stamina  = 90,
+    iq       = 125,
+    aura     = 14
+WHERE id_player = 8;
+
+UPDATE player_mente SET
+    sanidade    = 110,
+    sanidadeMax = 110,
+    stress      = 30,
+    traumas     = 0,
+    rm          = 15
+WHERE id_player = 8;
+
+UPDATE player_dinheiro SET dinheiro = 5080 WHERE id_player = 8;
+
+-- Encantamentos de Yuri (body - vestimentas)
+-- Poseidon (id 35 no encantamentos), Espectro de Chamas (id 24), Enigma (id 31)
+-- já estão em R_player_encantamento do forth_insert: (8,35,3),(8,24,3),(8,31,7) ✓
+
+-- ------------------------------------------------------------
+-- F009 - KOISHI KOMEIJI (id 9)
+-- ------------------------------------------------------------
+-- Status praticamente iguais, apenas confirmar:
+UPDATE player_status SET
+    level        = 1,
+    hp           = 105,
+    forca        = 1,
+    velocidade   = 1,
+    agilidade    = 1,
+    durabilidade = 2,
+    combate      = 1,
+    experiencia  = 3
+WHERE id_player = 9;
+
+UPDATE player_energias SET
+    energia  = 25,
+    stamina  = 25,
+    iq       = 105,
+    aura     = 1
+WHERE id_player = 9;
+
+UPDATE player_mente SET
+    sanidade    = 100,
+    sanidadeMax = 100,
+    stress      = 10,
+    traumas     = 0,
+    rm          = 15
+WHERE id_player = 9;
 
 
--- ────────────────────────────────────────────────────────────
--- STEP 6: NOVO PLAYER — DOM SAUROM (id=10)
--- ────────────────────────────────────────────────────────────
+-- ============================================================
+-- 5. NOVOS PLAYERS
+-- ============================================================
 
-INSERT INTO player_base (nome, id_classe, efeitos)
-SELECT 'Dom Saurom S. M. D. H. A. P. H. M.', @id_zero, ''
-WHERE NOT EXISTS (SELECT 1 FROM player_base WHERE nome = 'Dom Saurom S. M. D. H. A. P. H. M.');
+-- ------------------------------------------------------------
+-- F010 - DOM SAUROM (id 10)
+-- Classe: Zero (id 18)
+-- ------------------------------------------------------------
 
-SET @saurom_id = (SELECT id FROM player_base WHERE nome = 'Dom Saurom S. M. D. H. A. P. H. M.');
+INSERT INTO player_base (nome, id_classe, efeitos) VALUES
+('Dom Saurom S.M.D.H.A.P.H.M.', 18, NULL);
+-- id 10
 
-INSERT INTO player_dinheiro (id_player, dinheiro, fragmento)
-SELECT @saurom_id, 0, 0
-WHERE NOT EXISTS (SELECT 1 FROM player_dinheiro WHERE id_player = @saurom_id);
+INSERT INTO player_dinheiro (id_player, dinheiro, fragmento) VALUES
+(10, 0, 0);
 
-INSERT INTO player_status (id_player, level, hp, forca, velocidade, agilidade, durabilidade, combate, experiencia)
-SELECT @saurom_id, 28, 103, 25, 25, 25, 30, 7, 19
-WHERE NOT EXISTS (SELECT 1 FROM player_status WHERE id_player = @saurom_id);
+INSERT INTO player_status (id_player, level, hp, forca, velocidade, agilidade, durabilidade, combate, experiencia) VALUES
+(10, 28, 103, 25, 25, 25, 30, 7, 19);
 
-INSERT INTO player_energias (id_player, iq, stamina, energia, aura)
-SELECT @saurom_id, 220, 60, 140, 18
-WHERE NOT EXISTS (SELECT 1 FROM player_energias WHERE id_player = @saurom_id);
+INSERT INTO player_energias (id_player, iq, stamina, energia, aura) VALUES
+(10, 220, 60, 140, 18);
 
-INSERT INTO player_mente (id_player, sanidade, sanidadeMax, stress, traumas, rm)
-SELECT @saurom_id, 79, 99, 57, 0, 35
-WHERE NOT EXISTS (SELECT 1 FROM player_mente WHERE id_player = @saurom_id);
+INSERT INTO player_mente (id_player, sanidade, sanidadeMax, stress, traumas, rm) VALUES
+(10, 79, 99, 57, 0, 35);
 
--- Título de Dom Saurom
-INSERT INTO R_player_titulo (id_player, id_titulo)
-SELECT @saurom_id, @tit_saurom
-WHERE NOT EXISTS (SELECT 1 FROM R_player_titulo WHERE id_player = @saurom_id AND id_titulo = @tit_saurom);
+-- Título de Dom Saurom: "Nome Completo" (id 44)
+INSERT INTO R_player_titulo (id_player, id_titulo) VALUES
+(10, 44);
 
 -- Itens de Dom Saurom
-INSERT INTO R_player_item (id_player, id_item)
-SELECT @saurom_id, @item_brasao_solen
-WHERE NOT EXISTS (SELECT 1 FROM R_player_item WHERE id_player = @saurom_id AND id_item = @item_brasao_solen);
+INSERT INTO itens (item, id_raridade, descricao) VALUES
+('Brasao Solen',  2, 'Brasão da família Solen.'),
+('Runa Roxa',     2, 'Ressonancia Lunar N.II: ataques noturnos ganham dano de energia lunar; durante o dia, neutro. Nao encantada.'),
+('Runa Verde',    2, 'Rede de Niquel N.IV: projeta rede que reduz velocidade inimiga pela metade por 2 turnos. Nao encantada.');
+-- ids: 108 = Brasão Solen, 109 = Runa Roxa, 110 = Runa Verde
 
-INSERT INTO R_player_item (id_player, id_item)
-SELECT @saurom_id, @item_celular
-WHERE NOT EXISTS (SELECT 1 FROM R_player_item WHERE id_player = @saurom_id AND id_item = @item_celular);
+INSERT INTO R_player_item (id_player, id_item) VALUES
+(10, 108),   -- Brasão Solen
+(10,  77),   -- Celular (id 77, já existia)
+(10, 109),   -- Runa Roxa (não encantada/não usada)
+(10, 110);   -- Runa Verde (não encantada/não usada)
 
-INSERT INTO R_player_item (id_player, id_item)
-SELECT @saurom_id, @item_runa_roxa
-WHERE NOT EXISTS (SELECT 1 FROM R_player_item WHERE id_player = @saurom_id AND id_item = @item_runa_roxa);
+-- Técnica e jutsus de Dom Saurom
+-- Técnica: Segunda Chance (id_tecnica = 11)
+INSERT INTO player_tecnicas (id_player, nome, descricao) VALUES
+(10, 'Segunda Chance', 'Liga a alma do usuario com uma invocacao, trazendo a alma de um falecido por meio de um objeto e colocando-a em um corpo amaldicado. A invocacao e literalmente a pessoa falecida (e a alma). A ligacao: cada um tem metade da alma do outro.');
 
-INSERT INTO R_player_item (id_player, id_item)
-SELECT @saurom_id, @item_runa_verde
-WHERE NOT EXISTS (SELECT 1 FROM R_player_item WHERE id_player = @saurom_id AND id_item = @item_runa_verde);
+-- Dom Saurom não tem jutsus próprios listados (poderes são via invocações)
+-- TODO: adicionar jutsus quando definidos
 
--- Técnica de Dom Saurom (jutsus são das invocações — faremos depois)
-INSERT INTO player_tecnicas (id_player, nome, descricao)
-SELECT @saurom_id, 'Segunda Chance',
-'Liga a alma do usuário com a invocação, trazendo a alma de um falecido antigo por meio de um objeto e colocando-a em um corpo amaldiçoado visível a pessoas normais. Um tem metade da alma do outro.'
-WHERE NOT EXISTS (SELECT 1 FROM player_tecnicas WHERE id_player = @saurom_id AND nome = 'Segunda Chance');
+-- Habilidades básicas de Dom Saurom: nenhuma listada ainda
+-- TODO: confirmar com o mestre
 
 
--- ────────────────────────────────────────────────────────────
--- STEP 7: NOVO PLAYER — DRAKKMAR C. DRACO (id=11)
--- ────────────────────────────────────────────────────────────
+-- ------------------------------------------------------------
+-- F011 - DRAKKMAR C. DRACO (id 11)
+-- Classe: Dragão (id 19)
+-- Energia: KI (id 4)
+-- ------------------------------------------------------------
 
-INSERT INTO player_base (nome, id_classe, efeitos)
-SELECT 'Drakkmar C. Draco', @id_dragao,
-'A energia dele é KI (engloba prana, force, aura e E.A. em um só). Sem KI o usuário morre. Ele é de outra Era (fraturas).'
-WHERE NOT EXISTS (SELECT 1 FROM player_base WHERE nome = 'Drakkmar C. Draco');
+INSERT INTO player_base (nome, id_classe, efeitos) VALUES
+('Drakkmar C. Draco', 19, 'KI');
+-- id 11
 
-SET @drakkmar_id = (SELECT id FROM player_base WHERE nome = 'Drakkmar C. Draco');
+INSERT INTO player_dinheiro (id_player, dinheiro, fragmento) VALUES
+(11, 0, 0);
 
-INSERT INTO player_dinheiro (id_player, dinheiro, fragmento)
-SELECT @drakkmar_id, 0, 0
-WHERE NOT EXISTS (SELECT 1 FROM player_dinheiro WHERE id_player = @drakkmar_id);
+INSERT INTO player_status (id_player, level, hp, forca, velocidade, agilidade, durabilidade, combate, experiencia) VALUES
+(11, 14, 2400, 65, 75, 74, 70, 60, 100);
 
-INSERT INTO player_status (id_player, level, hp, forca, velocidade, agilidade, durabilidade, combate, experiencia)
-SELECT @drakkmar_id, 14, 2400, 65, 75, 74, 70, 60, 100
-WHERE NOT EXISTS (SELECT 1 FROM player_status WHERE id_player = @drakkmar_id);
+INSERT INTO player_energias (id_player, iq, stamina, energia, aura) VALUES
+(11, 400, 6000, 1600, 70);
+-- OBS: energia aqui representa KI (id_energia referenciaria id 4 nos jutsus)
 
-INSERT INTO player_energias (id_player, iq, stamina, energia, aura)
-SELECT @drakkmar_id, 400, 6000, 1600, 70
-WHERE NOT EXISTS (SELECT 1 FROM player_energias WHERE id_player = @drakkmar_id);
-
-INSERT INTO player_mente (id_player, sanidade, sanidadeMax, stress, traumas, rm)
-SELECT @drakkmar_id, 100, 130, 10, 1, 50
-WHERE NOT EXISTS (SELECT 1 FROM player_mente WHERE id_player = @drakkmar_id);
+INSERT INTO player_mente (id_player, sanidade, sanidadeMax, stress, traumas, rm) VALUES
+(11, 100, 130, 10, 1, 50);
 
 -- Títulos de Drakkmar
-INSERT INTO R_player_titulo (id_player, id_titulo)
-SELECT @drakkmar_id, @tit_dragao_v
-WHERE NOT EXISTS (SELECT 1 FROM R_player_titulo WHERE id_player = @drakkmar_id AND id_titulo = @tit_dragao_v);
+INSERT INTO R_player_titulo (id_player, id_titulo) VALUES
+(11, 42),   -- Dragão Verdadeiro
+(11, 43);   -- Fujão
 
-INSERT INTO R_player_titulo (id_player, id_titulo)
-SELECT @drakkmar_id, @tit_fujao
-WHERE NOT EXISTS (SELECT 1 FROM R_player_titulo WHERE id_player = @drakkmar_id AND id_titulo = @tit_fujao);
+-- Drakkmar não tem itens listados ("só a roupa") — nenhum INSERT de item
 
--- Talentos de Drakkmar
-INSERT INTO player_talentos (id_player, nome, descricao)
-SELECT @drakkmar_id, 'Acordo com o Autor', 'Acordo feito com o Autor. Efeito: ao receber dano letal, ativa Vínculo do Autor (uso único por combate).'
-WHERE NOT EXISTS (SELECT 1 FROM player_talentos WHERE id_player = @drakkmar_id AND nome = 'Acordo com o Autor');
+-- Técnica e jutsus de Drakkmar
+-- id_tecnica = 12
+INSERT INTO player_tecnicas (id_player, nome, descricao) VALUES
+(11, 'Tecnica Dragao', 'Poderes dracônicos de Drakkmar C. Draco. Energia usada: KI.');
 
-INSERT INTO player_talentos (id_player, nome, descricao)
-SELECT @drakkmar_id, 'Acordo com Quetzalcoatl', 'Acordo feito com Quetzalcoatl.'
-WHERE NOT EXISTS (SELECT 1 FROM player_talentos WHERE id_player = @drakkmar_id AND nome = 'Acordo com Quetzalcoatl');
+INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao) VALUES
+(12, 'Fogo Abissal',
+     30, 4, 14,
+     'Magico. Cone 80m. Dano = 3.6x Fogo base + DoT 3 turnos (10% do dano inicial/turno). Reduz RM magica do alvo em 25% por 2 turnos. +0,5% dano por 10 de IQ.'),
+(12, 'Mordida Venenosa',
+     30, NULL, 14,
+     'Fisico. Custo: 30 Stamina. Veneno padrao + Selo Draconico (2 turnos): dano recebido do Drakkmar +15%.'),
+(12, 'Pele de Ferro',
+     25, 4, 10,
+     'Reflexao Parcial: reflete 70% do dano magico de volta ao atacante enquanto ativa. +10 durabilidade durante uso.'),
+(12, 'Sopro Abissal Ultimatum',
+     180, 4, 14,
+     'Ultimate. Magico. Custo: 180 KI + 120 Stamina. CD: 6 turnos. Canaliza 1 turno, cone 300m. Dano = 3.5x Fogo Abissal. Paralisia mental 1 turno (baseada no IQ). Se Essencia Draconíca ativa: dano x1.25 e paralisia 2 turnos.'),
+(12, 'Garras Rachadoras',
+     30, NULL, 12,
+     'Fisico. Custo: 30 Stamina. Dois golpes; segundo ignora 30% armadura. Se primeiro derruba alvo a <30% HP, causa sangramento 2 turnos.'),
+(12, 'Rugido do Suserano',
+     40, 4, 14,
+     'Suporte/controle. AOE 40m. CD: 4 turnos. Reduz precisao inimiga 20% por 2 turnos e dano fisico aliado +10% por 2 turnos. Em Essencia Titanica: tambem provoca inimigos 1 turno.'),
+(12, 'Sangue de Dragao',
+     100, 4, 14,
+     'Recuperacao. Instant. Restaura 300 HP + 5% do KI maximo. Reduz taxa de recuperacao de KI em 25% por 2 turnos.'),
+(12, 'Passo Draconico',
+     20, NULL, 14,
+     'Mobilidade/ataque. Custo: 20 Stamina. Teleporta ate 122m e faz ataque cortante com prioridade (ignora iniciativa menor). Se usado apos Passo Furtivo: stun 1 turno.');
 
-INSERT INTO player_talentos (id_player, nome, descricao)
-SELECT @drakkmar_id, 'Benção de Quetzalcoatl',
-'Adaptação de Combate: enquanto lutando ganha +1 no dado por turno sem limite. Funciona até ser interrompida por autoridade, lei absoluta ou algo mais poderoso.'
-WHERE NOT EXISTS (SELECT 1 FROM player_talentos WHERE id_player = @drakkmar_id AND nome = 'Benção de Quetzalcoatl');
-
--- Técnica de Drakkmar
-INSERT INTO player_tecnicas (id_player, nome, descricao)
-SELECT @drakkmar_id, 'Arte Dracônica',
-'Poderes naturais do Dragão Verdadeiro baseados em KI (energia unificada). KI engloba prana, force, aura e E.A. Inclui acordos com o Autor e Quetzalcoatl.'
-WHERE NOT EXISTS (SELECT 1 FROM player_tecnicas WHERE id_player = @drakkmar_id AND nome = 'Arte Dracônica');
-
-SET @drakkmar_tec = (SELECT id FROM player_tecnicas WHERE id_player = @drakkmar_id AND nome = 'Arte Dracônica');
-
--- Jutsus de Drakkmar (KI aproximado como E.A. id=2 onde aplicável; Stamina como Prana id=1)
-INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao)
-SELECT @drakkmar_tec, 'Fogo Abissal', 30, 2, 14,
-'Cone 80m. Dano = 3.6× Fogo base + DoT 3 turnos (10%/turno). -25% resistência mágica do alvo por 2 turnos. +0,5% dano por 10 de IQ.'
-WHERE NOT EXISTS (SELECT 1 FROM player_jutsus WHERE id_tecnica = @drakkmar_tec AND nome = 'Fogo Abissal');
-
-INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao)
-SELECT @drakkmar_tec, 'Mordida Venenosa', 30, 1, 1,
-'Físico. Custo: 30 Stamina. Aplica Selo Dracônico (2 turnos): +15% dano recebido do Drakkmar.'
-WHERE NOT EXISTS (SELECT 1 FROM player_jutsus WHERE id_tecnica = @drakkmar_tec AND nome = 'Mordida Venenosa');
-
-INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao)
-SELECT @drakkmar_tec, 'Pele de Ferro', 25, 2, 10,
-'Reflexão Parcial: reflete 70% do dano mágico recebido ao atacante. +10 durabilidade durante uso.'
-WHERE NOT EXISTS (SELECT 1 FROM player_jutsus WHERE id_tecnica = @drakkmar_tec AND nome = 'Pele de Ferro');
-
-INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao)
-SELECT @drakkmar_tec, 'Sopro Abissal Ultimatum', 180, 2, 14,
-'Ultimate. 180 KI + 120 Stamina. CD: 6 turnos. Canaliza 1 turno; cone 300m: dano = 3.5× Fogo Abissal. Paralisia mental 1 turno. Com Essência Dracônica: ×1.25 e paralisia 2 turnos.'
-WHERE NOT EXISTS (SELECT 1 FROM player_jutsus WHERE id_tecnica = @drakkmar_tec AND nome = 'Sopro Abissal Ultimatum');
-
-INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao)
-SELECT @drakkmar_tec, 'Garras Rachadoras', 30, 1, 12,
-'Físico. 30 Stamina. Ataque duplo: 2º golpe ignora 30% armadura. Se 1º leva alvo a <30% HP, 2º causa sangramento por 2 turnos.'
-WHERE NOT EXISTS (SELECT 1 FROM player_jutsus WHERE id_tecnica = @drakkmar_tec AND nome = 'Garras Rachadoras');
-
-INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao)
-SELECT @drakkmar_tec, 'Rugido do Suserano', 40, 2, 1,
-'Suporte/controle. AOE 40m. CD: 4 turnos. -20% precisão inimiga 2 turnos; +10% dano físico aliado 2 turnos. Em Essência Titânica: provoca inimigos 1 turno.'
-WHERE NOT EXISTS (SELECT 1 FROM player_jutsus WHERE id_tecnica = @drakkmar_tec AND nome = 'Rugido do Suserano');
-
-INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao)
-SELECT @drakkmar_tec, 'Sangue de Dragão', 100, 2, 1,
-'Recuperação. Instant. Restaura 300 HP + 5% KI máximo. Penalidade: -25% taxa de recuperação de KI por 2 turnos.'
-WHERE NOT EXISTS (SELECT 1 FROM player_jutsus WHERE id_tecnica = @drakkmar_tec AND nome = 'Sangue de Dragão');
-
-INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao)
-SELECT @drakkmar_tec, 'Escama Reflexiva', 0, 2, 10,
-'Passiva. -32% dano recebido. Em Essência Titânica: 42% e +20% resistência a atordoamentos.'
-WHERE NOT EXISTS (SELECT 1 FROM player_jutsus WHERE id_tecnica = @drakkmar_tec AND nome = 'Escama Reflexiva');
-
-INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao)
-SELECT @drakkmar_tec, 'Sentido Predador', 0, 2, 1,
-'Passiva/crit. +20% chance crítica contra alvos com <50% HP. Ataque Duplo nesse estado: 2º ataque tem 100% de acerto crítico.'
-WHERE NOT EXISTS (SELECT 1 FROM player_jutsus WHERE id_tecnica = @drakkmar_tec AND nome = 'Sentido Predador');
-
-INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao)
-SELECT @drakkmar_tec, 'Vínculo do Autor', 300, 2, 1,
-'Lenda. Uso único por combate. 300 KI + 200 Stamina. Ao receber dano letal: fica com 1 HP, cura 25% HP máximo, Imunidade a controle por 2 turnos.'
-WHERE NOT EXISTS (SELECT 1 FROM player_jutsus WHERE id_tecnica = @drakkmar_tec AND nome = 'Vínculo do Autor');
-
-INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao)
-SELECT @drakkmar_tec, 'Passo Dracônico', 20, 1, 1,
-'Mobilidade/ataque. 20 Stamina. Teleporta até 122m + ataque cortante com prioridade. Após Passo Furtivo: stun 1 turno.'
-WHERE NOT EXISTS (SELECT 1 FROM player_jutsus WHERE id_tecnica = @drakkmar_tec AND nome = 'Passo Dracônico');
+-- Passivas de Drakkmar (inseridas como jutsus com custo NULL para indicar passiva)
+INSERT INTO player_jutsus (id_tecnica, nome, custo, id_energia_custo, level, descricao) VALUES
+(12, 'Escama Reflexiva',
+     NULL, NULL, 10,
+     'Passiva. Reduz dano recebido em 32%. Em Essencia Titanica: 42% e +20% resistencia a atordoamentos.'),
+(12, 'Sentido Predador',
+     NULL, NULL, 14,
+     'Passiva/crit. +20% chance critica contra alvos com <50% HP. Em Ataque Duplo nesse estado: segundo ataque tem 100% critico.'),
+(12, 'Vinculo do Autor',
+     300, 4, 14,
+     'Lenda. Uso unico por combate. Custo: 300 KI + 200 Stamina. Ao receber dano letal: fica com 1 HP, cura 25% HP maximo, Imunidade a controle 2 turnos.');
 
 -- Habilidades básicas de Drakkmar
-INSERT INTO R_player_habilidades_basicas (id_player, id_habilidade_basica, level)
-SELECT @drakkmar_id, 1, 1
-WHERE NOT EXISTS (SELECT 1 FROM R_player_habilidades_basicas WHERE id_player = @drakkmar_id AND id_habilidade_basica = 1);
+-- Recharge (id 1), Passo Furtivo (id 2), Coração de Leão (id 5), Defesa Tartaruga Leão (id 4), Olhos de Falcão (id 3)
+INSERT INTO R_player_habilidades_basicas (id_player, id_habilidade_basica, level) VALUES
+(11, 1, 1),   -- Recharge
+(11, 2, 10),  -- Passo Furtivo (lvl 10)
+(11, 3, 1),   -- Olhos de Falcão
+(11, 4, 1),   -- Defesa da Tartaruga Leão
+(11, 5, 1);   -- Coração de Leão
 
-INSERT INTO R_player_habilidades_basicas (id_player, id_habilidade_basica, level)
-SELECT @drakkmar_id, 2, 10
-WHERE NOT EXISTS (SELECT 1 FROM R_player_habilidades_basicas WHERE id_player = @drakkmar_id AND id_habilidade_basica = 2);
+-- Habilidade extra: Instinto e Acordos — não existem nas tabelas atuais
+-- TODO: adicionar 'Instinto' e 'Acordos' em habilidades_basicas se o mestre quiser
+-- INSERT INTO habilidades_basicas (nome, custo, id_energia_custo) VALUES ('Instinto', 30, NULL), ('Acordos', NULL, NULL);
+-- E então inserir em R_player_habilidades_basicas para Drakkmar (id 11)
 
-INSERT INTO R_player_habilidades_basicas (id_player, id_habilidade_basica, level)
-SELECT @drakkmar_id, 3, 10
-WHERE NOT EXISTS (SELECT 1 FROM R_player_habilidades_basicas WHERE id_player = @drakkmar_id AND id_habilidade_basica = 3);
 
-INSERT INTO R_player_habilidades_basicas (id_player, id_habilidade_basica, level)
-SELECT @drakkmar_id, 4, 1
-WHERE NOT EXISTS (SELECT 1 FROM R_player_habilidades_basicas WHERE id_player = @drakkmar_id AND id_habilidade_basica = 4);
+-- ============================================================
+-- 6. TALENTOS DOS NOVOS PLAYERS
+-- ============================================================
 
-INSERT INTO R_player_habilidades_basicas (id_player, id_habilidade_basica, level)
-SELECT @drakkmar_id, 5, 1
-WHERE NOT EXISTS (SELECT 1 FROM R_player_habilidades_basicas WHERE id_player = @drakkmar_id AND id_habilidade_basica = 5);
+-- Dom Saurom: talento não definido ainda
+-- TODO: inserir quando o mestre definir
 
-INSERT INTO R_player_habilidades_basicas (id_player, id_habilidade_basica, level)
-SELECT @drakkmar_id, @hab_instinto, 10
-WHERE NOT EXISTS (SELECT 1 FROM R_player_habilidades_basicas WHERE id_player = @drakkmar_id AND id_habilidade_basica = @hab_instinto);
+-- Drakkmar: bênção da Quetzalcoatl e acordos como talento
+INSERT INTO player_talentos (id_player, nome, descricao) VALUES
+(11, 'Bencao Quetzalcoatl',
+     'Adaptacao de combate: enquanto lutando, ganha +1 no dado por turno sem limites. Funciona ate ser interrompida por autoridade, lei absoluta ou algo mais poderoso.'),
+(11, 'Acordos',
+     'Pode fazer acordos com seres menores: Humanos, Maldicoes, Cancrios, Quints, Sints, Onis, Demi-Humanos, Elfos, Gigantes, Meio-draconianos, Anoes, Orcs, Demonios de baixo nivel.'),
+(11, 'Acordo com Autor',
+     'Acordo feito com o Autor. Ativa Vinculo do Autor em combate.'),
+(11, 'Acordo Quetzalcoatl',
+     'Acordo feito com Quetzalcoatl.');
 
-INSERT INTO R_player_habilidades_basicas (id_player, id_habilidade_basica, level)
-SELECT @drakkmar_id, @hab_acordos, 1
-WHERE NOT EXISTS (SELECT 1 FROM R_player_habilidades_basicas WHERE id_player = @drakkmar_id AND id_habilidade_basica = @hab_acordos);
+
+-- ============================================================
+-- 7. NOVAS HABILIDADES DE CLASSE
+-- ============================================================
+-- Para Receptáculo (Dio) — classe id 16
+-- Para Demônio (Adrian) — classe id 17 (já tem as invocações da classe antiga;
+--   as invocações do Demônio são as mesmas mas com sabor diferente, manter)
+-- Para Zero e Dragão — TODO quando definidas
+
+-- Habilidades de classe do Receptáculo (Dio)
+-- A ficha menciona: Golpe Marcial (já existe id 6 para Guerreiro)
+-- e poderes de Shikigami/Maldição que são jutsus, não habilidades de classe
+-- TODO: confirmar se o Receptáculo tem habilidades de classe próprias
+
+-- Habilidade de classe do Dragão (Drakkmar)
+-- Ficha diz "Não tem mais classe depois da transição de Era"
+-- Nenhum insert necessário
+
+-- ============================================================
+-- FIM DO SEVENTH UPDATE
+-- ============================================================
+-- PENDÊNCIAS MARCADAS COM TODO:
+-- 1. VARCHAR(25) em titulos muito curto para o nome completo de Dom Saurom
+-- 2. Instinto e Acordos como habilidades básicas do Drakkmar
+-- 3. Habilidades de classe do Receptáculo (Dio)
+-- 4. Jutsus de Dom Saurom quando definidos
+-- 5. Talento de Dom Saurom quando definido
+-- 6. Habilidades de classe para Zero e Dragão quando definidas
+-- 7. As invocações de Dom Saurom (Miyamoto, Dom Pedro II, Vlad, Hattori, Joan of Arc,
+--    Rei Arthur, Simo Häyhä, Alexandre o Grande) — aguardando ordem do mestre
+-- 8. Custo real de Vimeinun Myrsky do Ikulian (missão pendente)
+-- ============================================================

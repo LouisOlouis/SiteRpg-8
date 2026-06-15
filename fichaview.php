@@ -1,4 +1,5 @@
 <?php
+//fichaview.php
 include("conexao.php");
 include("header.php");
 include("admin_check.php");

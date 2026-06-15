@@ -35,7 +35,7 @@ VALUES
 INSERT INTO habilidades_classe (id_classe, nome, custo, id_energia_custo, descricao)
 VALUES
 -- Invocador
-(4, 'Regeneração de E.A. em Combate', NULL, 2, '+5 E.A. por turno apenas se o player acertar ataques ou técnicas.'),
+(4, 'Regeneração de EA', NULL, 2, '+5 E.A. por turno apenas se o player acertar ataques ou técnicas.'),
 (4, 'Resistência Infernal',           NULL, NULL, '+20% resistência a fogo infernal, maldições comuns e corrupção leve.'),
 (4, 'Sobrevivência Crítica',          NULL, NULL, '1 vez por dia: ao chegar a 0 HP, continua ativo por 2 turnos antes de cair.'),
 (4, 'Invocação do Instinto',          10,   2, 'Invoca um soldado com AK-12 (45 balas) para lutar junto. Nível 2.'),
