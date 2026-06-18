@@ -117,11 +117,11 @@ $stmt->bind_param("i",$id); $stmt->execute();
 $estilos = $stmt->get_result()->fetch_all(MYSQLI_ASSOC); $stmt->close();
 
 // encantamentos do player (com rel id)
-$stmt = $conn->prepare("SELECT r_player_encantamento.id as rel_id,
-    encantamentos.id, encantamentos.encantamento, r_player_encantamento.level
-    FROM r_player_encantamento
-    JOIN encantamentos ON r_player_encantamento.id_encantamentos = encantamentos.id
-    WHERE r_player_encantamento.id_player = ?");
+$stmt = $conn->prepare("SELECT R_player_encantamento.id as rel_id,
+    encantamentos.id, encantamentos.encantamento, R_player_encantamento.level
+    FROM R_player_encantamento
+    JOIN encantamentos ON R_player_encantamento.id_encantamentos = encantamentos.id
+    WHERE R_player_encantamento.id_player = ?");
 $stmt->bind_param("i",$id); $stmt->execute();
 $encantamentos = $stmt->get_result()->fetch_all(MYSQLI_ASSOC); $stmt->close();
 
@@ -220,6 +220,23 @@ function del_btn($action, $rid, $pid, $confirm) {
             <a class="btn-admin btn-add" href="ficha_add_titulo.php?id=<?= $id ?>">+ Título</a>
         </div>
         <?php endif; ?>
+        <?php
+        $s_inv = $conn->prepare("SELECT COUNT(*) as total FROM invocacao_base WHERE id_player = ?");
+        $s_inv->bind_param("i", $id); $s_inv->execute();
+        $total_inv = $s_inv->get_result()->fetch_assoc()['total']; $s_inv->close();
+        ?>
+        <div style="margin-top:16px">
+            <h3>Invocações:
+                <?php if ($total_inv > 0): ?>
+                    <span style="font-size:14px;color:#888">(<?= $total_inv ?>)</span>
+                <?php endif; ?>
+            </h3>
+            <div class="admin-bar" style="margin-top:8px">
+                <a class="btn-admin btn-edit" href="invocacoes.php?player_id=<?= $id ?>">
+                    <?= $total_inv > 0 ? '⚔️ Ver Invocações' : '⚔️ Gerenciar Invocações' ?>
+                </a>
+            </div>
+        </div>
     </div>
 </div>
 
